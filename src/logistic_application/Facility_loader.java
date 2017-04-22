@@ -24,7 +24,7 @@ public class Facility_loader {
   public static void main(String[] args) {
 
         try {
-            String fileName = "facility_network.xml";
+            String fileName = "facilities.xml";
 
             DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
             DocumentBuilder db = dbf.newDocumentBuilder();
@@ -67,6 +67,8 @@ public class Facility_loader {
                 //ArrayList<String> linksDescriptions = new ArrayList<>();
                 Map <String, Integer> neighbors = new HashMap <String, Integer>(); 
                 NodeList linksList = fcltNetwork.getElementsByTagName("Link");
+                NodeList inventoryList = fcltNetwork.getElementsByTagName("Inventory");
+
                 for (int j = 0; j < linksList.getLength(); j++) {
                     if (linksList.item(j).getNodeType() == Node.TEXT_NODE) {
                         continue;
@@ -85,33 +87,32 @@ public class Facility_loader {
                     // Create a string summary of the book
                     //linksDescriptions.add(neighborName + " is " + neighborDist + " miles away" );
                     int neighborDistint = Integer.parseInt(neighborDist);
-                    System.out.println(neighborName + neighborDistint);
+                    //System.out.println(neighborName + neighborDistint);
                     neighbors.put(neighborName, neighborDistint);
 
                 }
                         
                 // Get all nodes named "Inventory" - there can be 0 or more
                 ArrayList<String> inventoryDescriptions = new ArrayList<>();
-                NodeList inventoryList = fcltNetwork.getElementsByTagName("Inventory");
-                for (int j = 0; j < inventoryList.getLength(); j++) {
-                    if (inventoryList.item(j).getNodeType() == Node.TEXT_NODE) {
+                System.out.println(inventoryList.getLength());
+                for (int k = 0; k < inventoryList.getLength(); k++) {
+                    if (inventoryList.item(k).getNodeType() == Node.TEXT_NODE) {
                         continue;
                     }
 
-                    entryName = inventoryList.item(j).getNodeName();
+                    entryName = inventoryList.item(k).getNodeName();
                     if (!entryName.equals("Inventory")) {
                         System.err.println("Unexpected node found: " + entryName);
                         return;
                     }
 
                     // Get some named nodes
-                    fcltNetwork = (Element) inventoryList.item(j);
+                    fcltNetwork = (Element) inventoryList.item(k);
                     String inventoryItemID = fcltNetwork.getElementsByTagName("ItemID").item(0).getTextContent();
                     String inventoryQ = fcltNetwork.getElementsByTagName("Quantity").item(0).getTextContent();
         
-                    System.out.println( inventoryItemID);
                     // Create a string summary of the book
-                    inventoryDescriptions.add("InventoryItemID: " + inventoryItemID + " Quantity: " + inventoryQ + ". " );
+                    inventoryDescriptions.add("InventoryItemID: " + inventoryItemID + " Quantity: " + inventoryQ );
                     //+ bookDate + " [" + bookIsbn13 + "]");
                 }
 
@@ -120,7 +121,8 @@ public class Facility_loader {
                 System.out.println(facility.getfcltName() +"\n   Rate per day: "+ facility.getfcltRate()+ "\n   Cost per day: $" + facility.getfcltCost() +"\n Direct Links: \n" + facility.getneighbors() + "\n");
                 // Here I would create a Store object using the data I just loaded from the XML
                 //System.out.println("Facility name: "+ fcltName +" [Rate /day:" + fcltRate + " Cost: $" + fcltCost + "] \n" + linksDescriptions +"\n" + inventoryDescriptions + "\n");
-                
+                System.out.println(inventoryDescriptions + "\n");
+
             }
 
         } catch (ParserConfigurationException | SAXException | IOException | DOMException e) {
