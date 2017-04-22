@@ -4,6 +4,8 @@ package logistic_application;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.parsers.DocumentBuilder;
@@ -62,7 +64,8 @@ public class Facility_loader {
                 int fcltRateint = Integer.parseInt(fcltRate);
                 int fcltCostint = Integer.parseInt(fcltCost);
                 // Get Links - there can be 0 or more
-                ArrayList<String> linksDescriptions = new ArrayList<>();
+                //ArrayList<String> linksDescriptions = new ArrayList<>();
+                Map <String, Integer> neighbors = new HashMap <String, Integer>(); 
                 NodeList linksList = fcltNetwork.getElementsByTagName("Link");
                 for (int j = 0; j < linksList.getLength(); j++) {
                     if (linksList.item(j).getNodeType() == Node.TEXT_NODE) {
@@ -80,7 +83,10 @@ public class Facility_loader {
                     String neighborName = fcltNetwork.getElementsByTagName("Name").item(0).getTextContent();
                     String neighborDist = fcltNetwork.getElementsByTagName("Distance").item(0).getTextContent();               
                     // Create a string summary of the book
-                    linksDescriptions.add(neighborName + " is " + neighborDist + " miles away" );
+                    //linksDescriptions.add(neighborName + " is " + neighborDist + " miles away" );
+                    int neighborDistint = Integer.parseInt(neighborDist);
+                    System.out.println(neighborName + neighborDistint);
+                    neighbors.put(neighborName, neighborDistint);
 
                 }
                         
@@ -109,9 +115,9 @@ public class Facility_loader {
                     //+ bookDate + " [" + bookIsbn13 + "]");
                 }
 
-                Facility facility = FacilityImplFactory.loadFacility(fcltName, fcltRateint, fcltCostint);
+                Facility facility = FacilityImplFactory.loadFacility(fcltName, fcltRateint, fcltCostint, neighbors);
                 
-                System.out.println(facility.getfcltName() + facility.getfcltRate()+ facility.getfcltCost());
+                System.out.println(facility.getfcltName() +"\n   Rate per day: "+ facility.getfcltRate()+ "\n   Cost per day: $" + facility.getfcltCost() +"\n Direct Links: \n" + facility.getneighbors() + "\n");
                 // Here I would create a Store object using the data I just loaded from the XML
                 //System.out.println("Facility name: "+ fcltName +" [Rate /day:" + fcltRate + " Cost: $" + fcltCost + "] \n" + linksDescriptions +"\n" + inventoryDescriptions + "\n");
                 
