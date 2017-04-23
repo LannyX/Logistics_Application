@@ -11,6 +11,8 @@ public interface Facility {
 	public int getfcltCost();
 	
 	public Map<String, Integer> getneighbors(); 
+	
+	public Inventory getinventory();
 	  	
 	
 }

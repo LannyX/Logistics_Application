@@ -66,6 +66,8 @@ public class Facility_loader {
                 // Get Links - there can be 0 or more
                 //ArrayList<String> linksDescriptions = new ArrayList<>();
                 Map <String, Integer> neighbors = new HashMap <String, Integer>(); 
+                Map <String, Integer> inventories = new HashMap<String, Integer>();
+                
                 NodeList linksList = fcltNetwork.getElementsByTagName("Link");
                 NodeList inventoryList = fcltNetwork.getElementsByTagName("Inventory");
 
@@ -93,7 +95,7 @@ public class Facility_loader {
                 }
                         
                 // Get all nodes named "Inventory" - there can be 0 or more
-                ArrayList<String> inventoryDescriptions = new ArrayList<>();
+                //ArrayList<String> inventoryDescriptions = new ArrayList<>();
                 System.out.println(inventoryList.getLength());
                 for (int k = 0; k < inventoryList.getLength(); k++) {
                     if (inventoryList.item(k).getNodeType() == Node.TEXT_NODE) {
@@ -111,17 +113,23 @@ public class Facility_loader {
                     String inventoryItemID = fcltNetwork.getElementsByTagName("ItemID").item(0).getTextContent();
                     String inventoryQ = fcltNetwork.getElementsByTagName("Quantity").item(0).getTextContent();
         
+                    int inventoryQint = Integer.parseInt(inventoryQ);
+                    inventories.put(inventoryItemID, inventoryQint); 
+                 
+                    
                     // Create a string summary of the book
-                    inventoryDescriptions.add("InventoryItemID: " + inventoryItemID + " Quantity: " + inventoryQ );
+                    //inventoryDescriptions.add("InventoryItemID: " + inventoryItemID + " Quantity: " + inventoryQ );
                     //+ bookDate + " [" + bookIsbn13 + "]");
                 }
 
-                Facility facility = FacilityImplFactory.loadFacility(fcltName, fcltRateint, fcltCostint, neighbors);
-                
-                System.out.println(facility.getfcltName() +"\n   Rate per day: "+ facility.getfcltRate()+ "\n   Cost per day: $" + facility.getfcltCost() +"\n Direct Links: \n" + facility.getneighbors() + "\n");
+                System.out.println(inventories);
+                Facility facility = FacilityImplFactory.createFacility(fcltName, fcltRateint, fcltCostint, neighbors, new Inventory(inventories));
+                //Facility facility = FacilityImplFactory.loadFacility(fcltName, fcltRateint, fcltCostint, neighbors, (Inventory)inventories);
+
+                System.out.println(facility.getfcltName() +"\n   Rate per day: "+ facility.getfcltRate()+ "\n   Cost per day: $" + facility.getfcltCost() +"\n Direct Links: \n" + facility.getneighbors() + "\n" + facility.getinventory() + "\n");
                 // Here I would create a Store object using the data I just loaded from the XML
                 //System.out.println("Facility name: "+ fcltName +" [Rate /day:" + fcltRate + " Cost: $" + fcltCost + "] \n" + linksDescriptions +"\n" + inventoryDescriptions + "\n");
-                System.out.println(inventoryDescriptions + "\n");
+                //System.out.println(inventoryDescriptions + "\n");
 
             }
 
