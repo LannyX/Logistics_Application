@@ -27,7 +27,7 @@ public class Inventory {
             return inventory.get(itemId);
         }
          
-        // Input the required item Qtt, uptdate and return the item left in one facilty
+        // Input the required item Qtt, uptdate the facility Qtt and return new required Qtt
         public int decreaseQtt(String itemId, int amount) {
             int left=inventory.get(itemId);
             if (amount<=left) {
