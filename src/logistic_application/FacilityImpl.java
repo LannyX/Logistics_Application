@@ -9,16 +9,14 @@ public class FacilityImpl implements Facility{
 	  private Map<String, Integer> neighbors;
 	  private Inventory inventory;
 
-	  public FacilityImpl(String fcltName, int fcltRateint, int fcltCostint, Map<String, Integer> fcltneighbors, Inventory fcltinventory){
+	  public FacilityImpl(String fcltName, int fcltRate, int fcltCost, 
+                                Map<String, Integer> fcltNeighbors, Inventory fcltInventory){
 		  this.fcltName = fcltName;
-		  this.fcltRate = fcltRateint;
-		  this.fcltCost = fcltCostint;
-		  this.neighbors = fcltneighbors;
-		  this.inventory = fcltinventory;
-		  System.out.println(inventory);
+		  this.fcltRate = fcltRate;
+		  this.fcltCost = fcltCost;
+		  this.neighbors = fcltNeighbors;
+		  this.inventory = fcltInventory;
 	  }
-
-
 	  
 		@Override
 		public String getfcltName() {
@@ -39,16 +37,37 @@ public class FacilityImpl implements Facility{
 		}
 
 		@Override
-		public Map<String, Integer> getneighbors() {
+		public Map<String, Integer> getNeighbors() {
 			// TODO Auto-generated method stub
 			return neighbors;
 		}
+                
+                @Override
+                public void printNeighbors() {
+                    System.out.println("Direct Links:");
+                    //hourpD, milepH should be input paras
+                    final float hourpD=8;
+                    final float milepH=50;
+                    
+                    for (String neighbor:neighbors.keySet()){
+                        float travelTime= neighbors.get(neighbor) /hourpD /milepH;
+                        System.out.printf(neighbor+" (%1.1fd); ",travelTime);
+                    }
+                    System.out.println();
+                }
 
 		@Override
-		public Inventory getinventory() {
+		public Inventory getInventory() {
 			// TODO Auto-generated method stub
 			return inventory;
 		}
+                
+                @Override
+                public void printInventory(){
+                    inventory.printInv();
+                }
+                
+                
 
 
 }

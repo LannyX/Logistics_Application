@@ -20,7 +20,12 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
 public class Facility_loader {
+    
+  public static ArrayList<Facility> loadFacilities (String fileName) {
+      return new ArrayList();
+  }
 
+  
   public static void main(String[] args) {
 
         try {
@@ -29,109 +34,105 @@ public class Facility_loader {
             DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
             DocumentBuilder db = dbf.newDocumentBuilder();
 
-            File xml = new File(fileName);
-            if (!xml.exists()) {
+            File fcltXml = new File(fileName);
+            if (!fcltXml.exists()) {
                 System.err.println("**** XML File '" + fileName + "' cannot be found");
                 System.exit(-1);
             }
             
-            Document doc = db.parse(xml);
+            Document doc = db.parse(fcltXml);
             doc.getDocumentElement().normalize();
 
-            NodeList fcltNetworkEntries = doc.getDocumentElement().getChildNodes();
+            NodeList fcltEntries = doc.getDocumentElement().getChildNodes();
 
-            for (int i = 0; i < fcltNetworkEntries.getLength(); i++) {
-                if (fcltNetworkEntries.item(i).getNodeType() == Node.TEXT_NODE) {
+            for (int i = 0; i < fcltEntries.getLength(); i++) {
+                if (fcltEntries.item(i).getNodeType() == Node.TEXT_NODE) {
                     continue;
                 }
-                
-                String entryName = fcltNetworkEntries.item(i).getNodeName();
+                String entryName = fcltEntries.item(i).getNodeName();
                 if (!entryName.equals("Facility")) {
                     System.err.println("Unexpected node found: " + entryName);
                     return;
                 }
                 
                 // Get a node attribute
-                NamedNodeMap fcltNetworkMap = fcltNetworkEntries.item(i).getAttributes();
-                String fcltId = fcltNetworkMap.getNamedItem("Id").getNodeValue();
-
-                // Get information of a node 
-                Element fcltNetwork = (Element) fcltNetworkEntries.item(i);
-                String fcltName = fcltNetwork.getElementsByTagName("Name").item(0).getTextContent();
-                String fcltRate = fcltNetwork.getElementsByTagName("Rate").item(0).getTextContent();
-                String fcltCost = fcltNetwork.getElementsByTagName("Cost").item(0).getTextContent();
+                NamedNodeMap fcltMap = fcltEntries.item(i).getAttributes();
                 
-                int fcltRateint = Integer.parseInt(fcltRate);
-                int fcltCostint = Integer.parseInt(fcltCost);
-                // Get Links - there can be 0 or more
-                //ArrayList<String> linksDescriptions = new ArrayList<>();
-                Map <String, Integer> neighbors = new HashMap <String, Integer>(); 
+                // Get information of a node 
+                String fcltId = fcltMap.getNamedItem("Id").getNodeValue();
+                
+                Element fclt = (Element) fcltEntries.item(i);
+                String fcltName = fclt.getElementsByTagName("Name").item(0).getTextContent();
+                String fcltRateS = fclt.getElementsByTagName("Rate").item(0).getTextContent();
+                String fcltCostS = fclt.getElementsByTagName("Cost").item(0).getTextContent();
+                int fcltRate = Integer.parseInt(fcltRateS);
+                int fcltCost = Integer.parseInt(fcltCostS);
+
+                // Store pairs of <Name, Distance> in neighbors, <Id, Quantity> in inventories
+                Map <String, Integer> neighbors = new HashMap<String, Integer>(); 
                 Map <String, Integer> inventories = new HashMap<String, Integer>();
                 
-                NodeList linksList = fcltNetwork.getElementsByTagName("Link");
-                NodeList inventoryList = fcltNetwork.getElementsByTagName("Inventory");
-
-                for (int j = 0; j < linksList.getLength(); j++) {
-                    if (linksList.item(j).getNodeType() == Node.TEXT_NODE) {
+                NodeList neighborList = fclt.getElementsByTagName("Link");
+                NodeList inventoryList = fclt.getElementsByTagName("Inventory");
+                
+                // Get Neighbors - there can be 0 or more
+                for (int j = 0; j < neighborList.getLength(); j++) {
+                    if (neighborList.item(j).getNodeType() == Node.TEXT_NODE) {
                         continue;
                     }
-
-                    entryName = linksList.item(j).getNodeName();
+                    entryName = neighborList.item(j).getNodeName();
                     if (!entryName.equals("Link")) {
                         System.err.println("Unexpected node found: " + entryName);
                         return;
                     }
 
-                    // Get some named nodes
-                    fcltNetwork = (Element) linksList.item(j);
-                    String neighborName = fcltNetwork.getElementsByTagName("Name").item(0).getTextContent();
-                    String neighborDist = fcltNetwork.getElementsByTagName("Distance").item(0).getTextContent();               
-                    // Create a string summary of the book
-                    //linksDescriptions.add(neighborName + " is " + neighborDist + " miles away" );
-                    int neighborDistint = Integer.parseInt(neighborDist);
-                    //System.out.println(neighborName + neighborDistint);
-                    neighbors.put(neighborName, neighborDistint);
-
+                    // Get neighbors' information
+                    fclt = (Element) neighborList.item(j);
+                    String neighborName = fclt.getElementsByTagName("Name").item(0).getTextContent();
+                    String neighborDistS = fclt.getElementsByTagName("Distance").item(0).getTextContent();               
+                    int neighborDist = Integer.parseInt(neighborDistS);
+                    // Put into Hashmap
+                    neighbors.put(neighborName, neighborDist);
                 }
                         
-                // Get all nodes named "Inventory" - there can be 0 or more
-                //ArrayList<String> inventoryDescriptions = new ArrayList<>();
-                System.out.println(inventoryList.getLength());
+                // Get Inventories - there can be 0 or more
+
                 for (int k = 0; k < inventoryList.getLength(); k++) {
                     if (inventoryList.item(k).getNodeType() == Node.TEXT_NODE) {
                         continue;
                     }
-
                     entryName = inventoryList.item(k).getNodeName();
                     if (!entryName.equals("Inventory")) {
                         System.err.println("Unexpected node found: " + entryName);
                         return;
                     }
 
-                    // Get some named nodes
-                    fcltNetwork = (Element) inventoryList.item(k);
-                    String inventoryItemID = fcltNetwork.getElementsByTagName("ItemID").item(0).getTextContent();
-                    String inventoryQ = fcltNetwork.getElementsByTagName("Quantity").item(0).getTextContent();
-        
-                    int inventoryQint = Integer.parseInt(inventoryQ);
-                    inventories.put(inventoryItemID, inventoryQint); 
-                 
-                    
-                    // Create a string summary of the book
-                    //inventoryDescriptions.add("InventoryItemID: " + inventoryItemID + " Quantity: " + inventoryQ );
-                    //+ bookDate + " [" + bookIsbn13 + "]");
+                    // Get inventories' information
+                    fclt = (Element) inventoryList.item(k);
+                    String inventoryItemID = fclt.getElementsByTagName("ItemID").item(0).getTextContent();
+                    String inventoryQttS = fclt.getElementsByTagName("Quantity").item(0).getTextContent();
+                    int inventoryQtt = Integer.parseInt(inventoryQttS);
+                    // Put into Hashmap
+                    inventories.put(inventoryItemID, inventoryQtt); 
                 }
 
-                System.out.println(inventories);
-                Facility facility = FacilityImplFactory.createFacility(fcltName, fcltRateint, fcltCostint, neighbors, new Inventory(inventories));
-                //Facility facility = FacilityImplFactory.loadFacility(fcltName, fcltRateint, fcltCostint, neighbors, (Inventory)inventories);
+                Facility facility = FacilityImplFactory.createFacility(fcltName, 
+                                    fcltRate, fcltCost, neighbors, new Inventory(inventories));
 
-                System.out.println(facility.getfcltName() +"\n   Rate per day: "+ facility.getfcltRate()+ "\n   Cost per day: $" + facility.getfcltCost() +"\n Direct Links: \n" + facility.getneighbors() + "\n" + facility.getinventory() + "\n");
-                // Here I would create a Store object using the data I just loaded from the XML
-                //System.out.println("Facility name: "+ fcltName +" [Rate /day:" + fcltRate + " Cost: $" + fcltCost + "] \n" + linksDescriptions +"\n" + inventoryDescriptions + "\n");
-                //System.out.println(inventoryDescriptions + "\n");
+                // Print out, the part below will be moved to FacilityMgr
+                // ------------------------
+                System.out.println(facility.getfcltName());
+                System.out.println("-----------");
+                System.out.println("Rate per day: "+ facility.getfcltRate());
+                System.out.println("Cost per day: $"+ facility.getfcltCost());   
+                facility.printNeighbors();
+                System.out.println();
+                facility.printInventory();
+                System.out.println();
+                 // ------------------------
 
             }
+            
 
         } catch (ParserConfigurationException | SAXException | IOException | DOMException e) {
             e.printStackTrace();
