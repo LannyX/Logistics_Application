@@ -44,6 +44,8 @@ public class Facility_loader {
             doc.getDocumentElement().normalize();
 
             NodeList fcltEntries = doc.getDocumentElement().getChildNodes();
+            
+            //create ArrayList storing facilities
 
             for (int i = 0; i < fcltEntries.getLength(); i++) {
                 if (fcltEntries.item(i).getNodeType() == Node.TEXT_NODE) {
@@ -119,6 +121,10 @@ public class Facility_loader {
                 Facility facility = FacilityImplFactory.createFacility(fcltName, 
                                     fcltRate, fcltCost, neighbors, new Inventory(inventories));
 
+                
+                
+                // store facility in ArrayList
+                
                 // Print out, the part below will be moved to FacilityMgr
                 // ------------------------
                 System.out.println(facility.getfcltName());
@@ -137,6 +143,9 @@ public class Facility_loader {
         } catch (ParserConfigurationException | SAXException | IOException | DOMException e) {
             e.printStackTrace();
         }
+        
+        
+        
     }
 
     
