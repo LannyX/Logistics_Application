@@ -5,21 +5,28 @@ import java.util.Map;
 
 public class FacilityMgr {
 
-	 //create ArrayList to put facility
-	 private ArrayList<Facility>  FacilityList = new ArrayList<Facility>();
+    //create ArrayList to put facility
+    private ArrayList<Facility> fcltList;
+    
+    private static FacilityMgr fcltMgr;
+
+    //load the file in c'tor   
+    private FacilityMgr(){
+        fcltList = FacilityLoader.load();
+    }
+            
+    public static FacilityMgr getInstance(){
+        if (fcltMgr==null) fcltMgr=new FacilityMgr();
+        return fcltMgr;
+    }
 	 
-	 public void GetInstance(){
-		 Facility_loader GetIns = new Facility_loader(this);
-	 }
-	 
-	 public void AddFacility(Facility facility){
-		 FacilityList.add(facility);
-	 }
-	 
-	 public void PrintTheReport(){
-		 for (Facility facility: FacilityList){
-			 facility.PrintFacility();
-		 }
-	 }
-	 
+    public void printReport(){
+        for (Facility facility: fcltList){
+            facility.printFacility();
+        }
+    }
+    
+    
+    
+
 }

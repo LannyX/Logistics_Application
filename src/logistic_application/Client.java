@@ -5,13 +5,8 @@ package logistic_application;
 public class Client {
 
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-
-		FacilityMgr FMgr = new FacilityMgr();
-		FMgr.GetInstance();
-		FMgr.PrintTheReport();
-		
-		
+                FacilityMgr.getInstance().printReport();
+                
 	}
 
 }
