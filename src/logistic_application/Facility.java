@@ -12,13 +12,15 @@ public interface Facility {
 	
         //should not return ref, need mod
 	public Map<String, Integer> getNeighbors();
+	
+	public void PrintFacility();
         
-        public void printNeighbors();
+    public void printNeighbors();
         
 	 //should not return ref, need mod
 	public Inventory getInventory();
         
-        public void printInventory();
+    public void printInventory();
 	  	
 	
 }

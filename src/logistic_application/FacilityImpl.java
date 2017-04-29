@@ -42,6 +42,17 @@ public class FacilityImpl implements Facility{
 			return neighbors;
 		}
                 
+		public void PrintFacility(){
+            System.out.println(fcltName);
+            System.out.println("-----------");
+            System.out.println("Rate per day: "+ fcltRate);
+            System.out.println("Cost per day: $"+ fcltCost + "\n");
+            printNeighbors();
+            System.out.println();
+            printInventory();
+            System.out.println();
+
+		}
                 @Override
                 public void printNeighbors() {
                     System.out.println("Direct Links:");

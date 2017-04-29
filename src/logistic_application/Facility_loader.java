@@ -20,13 +20,15 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
 public class Facility_loader {
-    
-  public static ArrayList<Facility> loadFacilities (String fileName) {
-      return new ArrayList();
-  }
 
+	private FacilityMgr Mgr = new FacilityMgr();
+	
+	Facility_loader(FacilityMgr Mgr){
+		this.Mgr = Mgr;
+		load();
+	}
   
-  public static void main(String[] args) {
+	public void load() {
 
         try {
             String fileName = "facilities.xml";
@@ -120,23 +122,8 @@ public class Facility_loader {
 
                 Facility facility = FacilityImplFactory.createFacility(fcltName, 
                                     fcltRate, fcltCost, neighbors, new Inventory(inventories));
-
+                Mgr.AddFacility(facility);
                 
-                
-                // store facility in ArrayList
-                
-                // Print out, the part below will be moved to FacilityMgr
-                // ------------------------
-                System.out.println(facility.getfcltName());
-                System.out.println("-----------");
-                System.out.println("Rate per day: "+ facility.getfcltRate());
-                System.out.println("Cost per day: $"+ facility.getfcltCost());   
-                facility.printNeighbors();
-                System.out.println();
-                facility.printInventory();
-                System.out.println();
-                 // ------------------------
-
             }
             
 
