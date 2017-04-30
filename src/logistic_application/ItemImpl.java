@@ -28,7 +28,8 @@ public class ItemImpl implements Item{
 	public void printItem() {
 		// TODO Auto-generated method stub
 
-		System.out.println(itemId+" :"+ new String(new char[8-itemId.length()]).replace("\0", " ") +"$"+itemPrice);
+		String itemPriceS = "$" + itemPrice;
+		System.out.printf("  %-8s:  %-8s", itemId, itemPriceS);
 	}
 
 	

@@ -19,8 +19,11 @@ public class ItemMgr {
     }
     
     public void printItemReport(){
+    	int i = 0;
         for (Item item: itemList){
-            item.printItem();
+            i++;
+        	item.printItem();
+        	if (i%4 == 0) System.out.println();
         }
     }
     
