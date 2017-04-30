@@ -10,15 +10,17 @@ public interface Facility {
 	  
 	public int getfcltCost();
 	
+        //should not return ref, need mod
 	public Map<String, Integer> getNeighbors();
 	
 	public void printFacility();
         
-    public void printNeighbors();
-
+        public void printNeighbors();
+        
+	//should not return ref, need mod
 	public Inventory getInventory();
         
-    public void printInventory();
+        public void printInventory();
 	  	
 	
 }

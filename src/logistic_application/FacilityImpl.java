@@ -49,8 +49,8 @@ public class FacilityImpl implements Facility{
             System.out.println();
 	}
         
-    @Override
-    public void printNeighbors() {
+        @Override
+        public void printNeighbors() {
             System.out.println("Direct Links:");
             //hourpD, milepH should be input paras
             final float hourpD=8;
@@ -61,7 +61,7 @@ public class FacilityImpl implements Facility{
                 System.out.printf(neighbor+" (%1.1fd); ",travelTime);
             }
             System.out.println();
-    }
+        }
 
 	@Override
 	public Inventory getInventory() {
@@ -69,10 +69,10 @@ public class FacilityImpl implements Facility{
             return inventory;
 	}
                 
-    @Override
-    public void printInventory(){
+        @Override
+        public void printInventory(){
             inventory.printInv();
-    }
+        }
                 
                 
 
