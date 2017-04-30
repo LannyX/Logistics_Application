@@ -13,7 +13,8 @@ public class BestPath {
     private ArrayList<String> lowPath;
     
     private HashMap<String, Facility> fclts;
-    
+
+    //c'tor: load Facilities information
     public BestPath(HashMap<String, Facility> fclts){
         this.fclts=fclts;
         pairs=new HashMap<String,Integer>();
@@ -21,6 +22,7 @@ public class BestPath {
         lowPath=new ArrayList<String>();
     }
     
+    //Method to get an array of facilities along BestPath
     public ArrayList<String> findBestPath(String start,String end) {
         mapPairs(start);
         ArrayList<String> pathList=new ArrayList<String>();
@@ -29,6 +31,7 @@ public class BestPath {
         return lowPath;
     }
     
+    //Auxiliary method to create pair-distance HashMap, recursive
     private void mapPairs(String init) {
         seen.add(init);
         Collection<String> initNeighbors=fclts.get(init).getNeighbors();
@@ -40,6 +43,7 @@ public class BestPath {
         }
     }
     
+    //Auxiliary method to calculate the lowPath, recursive    
     private void findPaths(String start,String end,ArrayList<String> pathList){
         if (!start.equals(end)) {
             HashSet<String> fromHere=new HashSet<String>();
@@ -69,7 +73,8 @@ public class BestPath {
         }
     }
     
-    public int getLength(ArrayList<String> path){
+    //Auxiliary method to calculate the length of one path      
+    private int getLength(ArrayList<String> path){
         int length=0;
         int i=0;
         while (i<(path.size()-1)) {

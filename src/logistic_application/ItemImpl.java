@@ -1,5 +1,7 @@
 package logistic_application;
 
+import java.text.DecimalFormat;
+
 public class ItemImpl implements Item{
 	
 	private String itemId;
@@ -27,8 +29,8 @@ public class ItemImpl implements Item{
 	@Override
 	public void printItem() {
 		// TODO Auto-generated method stub
-
-		String itemPriceS = "$" + itemPrice;
+                DecimalFormat df=new DecimalFormat("#,###"); 
+		String itemPriceS = "$" + df.format(itemPrice);
 		System.out.printf("  %-8s:  %-8s", itemId, itemPriceS);
 	}
 

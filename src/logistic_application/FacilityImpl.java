@@ -69,12 +69,14 @@ public class FacilityImpl implements Facility{
         }
         
         @Override
+        //Return a new collection of Neighbor names
         public Collection<String> getNeighbors(){
             Collection<String> fcltNeighbors=neighbors.keySet();
             return fcltNeighbors;
         }
         
         @Override
+        //Return dist between a facility to one of its neighbor
         public int getNeighborDist(String neighborName) {
             return neighbors.get(neighborName);
         }
