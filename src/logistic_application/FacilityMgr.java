@@ -16,7 +16,7 @@ public class FacilityMgr {
     }
             
     public static FacilityMgr getInstance(){
-        if (fcltMgr==null) fcltMgr=new FacilityMgr();
+        if (fcltMgr==null) fcltMgr = new FacilityMgr();
         return fcltMgr;
     }
 	 
