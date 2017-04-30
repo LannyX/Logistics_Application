@@ -12,17 +12,18 @@ public class Client {
     
 	public static void main(String[] args) {
                 //Output1:
-                System.out.println("Output 1:");
+                System.out.println("Output 1: \n");
                 FacilityMgr.getInstance().printReport();
-                System.out.println("------------------------------------------------------------------------");
+                System.out.println("------------------------------------------------------------------------\n");
                 
                  //Output2:
-                System.out.println("Output 2:");
-
-                System.out.println("------------------------------------------------------------------------");
+                System.out.println("Output 2: \n");                
+                ItemMgr.getInstance().printItemReport();
+                System.out.println();
+                System.out.println("------------------------------------------------------------------------\n");
                 
                 //Output3:
-                System.out.println("Output 3:");
+                System.out.println("Output 3: \n");
                 ArrayList<String> fclts=new ArrayList<String>(FacilityMgr.getInstance().getFclts());
                 int[] start={1,13,9,2,6,0,4,11,8,10};
                 int[] end={5,17,16,3,4,11,14,9,5,16};
