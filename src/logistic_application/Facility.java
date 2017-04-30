@@ -1,6 +1,6 @@
 package logistic_application;
 
-import java.util.Map;
+import java.util.Collection;
 
 public interface Facility {
 
@@ -10,17 +10,14 @@ public interface Facility {
 	  
 	public int getfcltCost();
 	
-        //should not return ref, need mod
-	public Map<String, Integer> getNeighbors();
-	
 	public void printFacility();
         
         public void printNeighbors();
         
-	//should not return ref, need mod
-	public Inventory getInventory();
-        
         public void printInventory();
-	  	
-	
+        
+        public Collection<String> getNeighbors();
+        
+        public int getNeighborDist(String neighborName);
+
 }

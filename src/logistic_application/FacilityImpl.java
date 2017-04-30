@@ -1,5 +1,6 @@
 package logistic_application;
 
+import java.util.Collection;
 import java.util.Map;
 
 public class FacilityImpl implements Facility{
@@ -34,11 +35,8 @@ public class FacilityImpl implements Facility{
         }
 
         @Override
-	public Map<String, Integer> getNeighbors() {
-            return neighbors;
-	}
-                
 	public void printFacility(){
+            System.out.println("------------------------------------------------------------------------");
             System.out.println(fcltName);
             System.out.println("-----------");
             System.out.println("Rate per day: "+ fcltRate);
@@ -47,10 +45,11 @@ public class FacilityImpl implements Facility{
             System.out.println();
             printInventory();
             System.out.println();
+            System.out.println("Schedule: ");
 	}
         
-        @Override
-        public void printNeighbors() {
+    @Override
+    public void printNeighbors() {
             System.out.println("Direct Links:");
             //hourpD, milepH should be input paras
             final float hourpD=8;
@@ -61,20 +60,24 @@ public class FacilityImpl implements Facility{
                 System.out.printf(neighbor+" (%1.1fd); ",travelTime);
             }
             System.out.println();
-        }
+    }
 
-	@Override
-	public Inventory getInventory() {
-            // TODO Auto-generated method stub
-            return inventory;
-	}
-                
+
         @Override
         public void printInventory(){
             inventory.printInv();
         }
-                
-                
+        
+        @Override
+        public Collection<String> getNeighbors(){
+            Collection<String> fcltNeighbors=neighbors.keySet();
+            return fcltNeighbors;
+        }
+        
+        @Override
+        public int getNeighborDist(String neighborName) {
+            return neighbors.get(neighborName);
+        }
 
 
 }

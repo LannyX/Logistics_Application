@@ -7,11 +7,9 @@ package logistic_application;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.xml.bind.annotation.XmlElement;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -27,9 +25,9 @@ public class FacilityLoader {
     
    
     //The only static method to load facilities
-    public static ArrayList<Facility> load() {
+    public static HashMap<String, Facility> load() {
         
-        ArrayList<Facility> fcltList = new ArrayList<Facility>();
+        HashMap<String, Facility> fclts = new HashMap <String, Facility>();
         try {
             String fileName = "facilities.xml";
 
@@ -122,13 +120,13 @@ public class FacilityLoader {
 
                 Facility facility = FacilityImplFactory.createFacility(fcltName, 
                                     fcltRate, fcltCost, neighbors, new Inventory(inventories));
-                fcltList.add(facility);
+                fclts.put(fcltName,facility);
             }
 
         } catch (ParserConfigurationException | SAXException | IOException | DOMException e) {
             e.printStackTrace();
         }
         
-        return fcltList;
+        return fclts;
     }
 }
