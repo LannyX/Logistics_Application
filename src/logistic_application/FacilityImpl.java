@@ -9,14 +9,16 @@ public class FacilityImpl implements Facility{
 	private int fcltCost;
 	private Map<String, Integer> neighbors;
 	private Inventory inventory;
+	private Schedule schedule;
 
 	public FacilityImpl(String fcltName, int fcltRate, int fcltCost, 
-                            Map<String, Integer> fcltNeighbors, Inventory fcltInventory){
+                            Map<String, Integer> fcltNeighbors, Inventory fcltInventory, Schedule fcltSchedule){
 	    this.fcltName = fcltName;
 	    this.fcltRate = fcltRate;
 	    this.fcltCost = fcltCost;
 	    this.neighbors = fcltNeighbors;
 	    this.inventory = fcltInventory;
+	    this.schedule = fcltSchedule;
 	}
 	  
 	@Override
@@ -45,7 +47,7 @@ public class FacilityImpl implements Facility{
             System.out.println();
             printInventory();
             System.out.println();
-            System.out.println("Schedule: ");
+            printSchedule();
 	}
         
     @Override
@@ -80,6 +82,12 @@ public class FacilityImpl implements Facility{
         public int getNeighborDist(String neighborName) {
             return neighbors.get(neighborName);
         }
+
+		@Override
+		public void printSchedule() {
+			// TODO Auto-generated method stub
+			schedule.printSche();
+		}
 
 
 }

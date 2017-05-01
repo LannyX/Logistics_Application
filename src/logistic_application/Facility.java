@@ -11,7 +11,9 @@ public interface Facility {
 	public int getfcltCost();
 	
 	public void printFacility();
-        
+	
+	public void printSchedule();
+	
         public void printNeighbors();
         
         public void printInventory();

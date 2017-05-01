@@ -73,6 +73,7 @@ public class FacilityLoader {
                 // Store pairs of <Name, Distance> in neighbors, <Id, Quantity> in inventories
                 Map <String, Integer> neighbors = new HashMap<String, Integer>(); 
                 Map <String, Integer> inventories = new HashMap<String, Integer>();
+                Map <Integer, Integer> schedules = new HashMap<Integer, Integer>();
                 
                 NodeList neighborList = fclt.getElementsByTagName("Link");
                 NodeList inventoryList = fclt.getElementsByTagName("Inventory");
@@ -117,9 +118,13 @@ public class FacilityLoader {
                     // Put into Hashmap
                     inventories.put(inventoryItemID, inventoryQtt); 
                 }
+                
+                for (int x = 1; x <= 20; x++ ){
+                	schedules.put(x, 10);
+                }
 
                 Facility facility = FacilityImplFactory.createFacility(fcltName, 
-                                    fcltRate, fcltCost, neighbors, new Inventory(inventories));
+                                    fcltRate, fcltCost, neighbors, new Inventory(inventories), new Schedule(schedules));
                 fclts.put(fcltName,facility);
             }
 

@@ -29,7 +29,7 @@ public class ItemImpl implements Item{
 	@Override
 	public void printItem() {
 		// TODO Auto-generated method stub
-                DecimalFormat df=new DecimalFormat("#,###"); 
+        DecimalFormat df=new DecimalFormat("#,###"); 
 		String itemPriceS = "$" + df.format(itemPrice);
 		System.out.printf("  %-8s:  %-8s", itemId, itemPriceS);
 	}
