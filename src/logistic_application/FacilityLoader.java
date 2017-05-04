@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package logistic_application;
 
 import java.io.File;
@@ -21,10 +17,17 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
+
+/** 
+* @ClassName: FacilityLoader
+* @Description: load information through xml file and create facilites
+*/
 public class FacilityLoader {
     
-   
-    //The only static method to load facilities
+    /** 
+    * @Title: load
+    * @Description: The only static method in class to load and create facilities
+    */   
     public static HashMap<String, Facility> load() {
         
         HashMap<String, Facility> fclts = new HashMap <String, Facility>();
@@ -73,7 +76,6 @@ public class FacilityLoader {
                 // Store pairs of <Name, Distance> in neighbors, <Id, Quantity> in inventories
                 Map <String, Integer> neighbors = new HashMap<String, Integer>(); 
                 Map <String, Integer> inventories = new HashMap<String, Integer>();
-                Map <Integer, Integer> schedules = new HashMap<Integer, Integer>();
                 
                 NodeList neighborList = fclt.getElementsByTagName("Link");
                 NodeList inventoryList = fclt.getElementsByTagName("Inventory");
@@ -119,12 +121,8 @@ public class FacilityLoader {
                     inventories.put(inventoryItemID, inventoryQtt); 
                 }
                 
-                for (int x = 1; x <= 20; x++ ){
-                	schedules.put(x, 10);
-                }
-
                 Facility facility = FacilityImplFactory.createFacility(fcltName, 
-                                    fcltRate, fcltCost, neighbors, new Inventory(inventories), new Schedule(schedules));
+                                    fcltRate, fcltCost, neighbors, new Inventory(inventories));
                 fclts.put(fcltName,facility);
             }
 

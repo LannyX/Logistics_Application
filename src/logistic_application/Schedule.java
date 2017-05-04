@@ -1,39 +1,63 @@
 package logistic_application;
 
+import java.util.HashMap;
 import java.util.Map;
 
+
+/** 
+* @ClassName: Schedule
+* @Description: a class to keep track of facility processing availability
+*/
 public class Schedule {
 
-	private Map<Integer, Integer> scheduleMap;
+	private Map<Integer, Integer> schedule;
 	
-	public Schedule (Map<Integer, Integer> scheduleMap){
-		this.scheduleMap = scheduleMap;
+	/** 
+    * @Title: Schedule (c'tor) 
+    * @Description: create a schedule(Map) according to fcltRate
+    */
+	public Schedule (int fcltRate){
+            Map <Integer, Integer> schedule = new HashMap<Integer, Integer>();
+            for (int i = 1; i <= 50; i++ ){
+                schedule.put(i, fcltRate);
+            }
+            this.schedule = schedule;
 	}
 	
+	/** 
+    * @Title: get 
+    * @Description: to get processing capacity of one day
+    */
 	public int get(int day){
-		return scheduleMap.get(day);
+        //to be modified in phase 2
+        return schedule.get(day);
 	}
 
-	public int size(){
-		return scheduleMap.size();
+	/** 
+    * @Title: update
+    * @Description: update schedule according to startDay and to-be-processed items
+    */
+	public void update(int startDay, int items){
+            //to be modified in phase 2
 	}
 	
-	public void printSche(){
+	/** 
+    * @Title: printSchd
+    * @Description: print out the schedule report
+    */
+	public void printSchd(){
+        //In phase 1, temporarily limit the output shcdule to day 20
 		System.out.println("Schedule: ");
-		System.out.print("Day:          ");
-		for (int i = 1; i<= scheduleMap.size(); i++){
+		System.out.print("Day:         ");
+		for (int i = 1; i<= 20; i++){
 			String day = Integer.toString(i);
-			if (day.length() == 1)
-				day = " " + day;
-			System.out.print( day + " ");
+			System.out.printf("%3s",day);
 		}
-		
 		System.out.println();
-		System.out.print("Available:     ");
-		for (int i =1; i <= scheduleMap.size(); i++){
-			String available = Integer.toString(scheduleMap.get(i));
-		//	
-			System.out.print( available + " ");
+		System.out.print("Available:   ");
+		for (int i =1; i <= 20; i++){
+			String available = Integer.toString(schedule.get(i));
+			System.out.printf("%3s",available);
 		}
         System.out.println();
 	}

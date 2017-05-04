@@ -5,16 +5,21 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 
+/** 
+* @ClassName: FacilityMgr
+* @Description: define higher-lever interface to use facilites in facade pattern
+*/
 public class FacilityMgr {
 
-    //HashMap stores name-facility pairs
     private HashMap<String, Facility> fclts;
-    
-    
     private static FacilityMgr fcltMgr;
 
+
+    /** 
+    * @Title: FacilityMgr(c'tor) 
+    * @Description: load Facilities information
+    */
     private FacilityMgr(){
-        //Load facility data 
         fclts = FacilityLoader.load();
     }
 
@@ -23,32 +28,44 @@ public class FacilityMgr {
         return fcltMgr;
     }
     
-    //Method to print out Facility Status Output
+    /** 
+    * @Title: printReport
+    * @Description: print out Facility Status Output
+    */
     public void printReport(){
         Collection<Facility> fcltObj=fclts.values();
         for (Facility facility: fcltObj){
             facility.printFacility();
         }
     }
-    
-    //Method to get a collection of one facility's neighbors' names
-    public Collection<String> getNeighbors(String fcltname) {
+
+    /** 
+    * @Title: getNeighbors
+    * @Description: get a collection of one facility's neighbors' names
+    */
+    public Collection<String> getNeighbors(String fcltname) throws ItemNotExistException {
+        if (!getFclts().contains(fcltname)) {
+            throw new ItemNotExistException("Facility does not exist.");
+        }
         return fclts.get(fcltname).getNeighbors();
     }
     
-    //Method to get a collection of all facilities' names
+    /** 
+    * @Title: getFclts
+    * @Description: get a collection of all facilities' names
+    */
     public Collection<String> getFclts() {
         return fclts.keySet();
     }
-    
-    //Auxiliary method to get an array of facilities along a BestPath
-    private ArrayList<String> getBestPath(String start,String end) {
-        BestPath bestpathInst=new BestPath(fclts);
-        return bestpathInst.findBestPath(start,end);
-    }
-    
-    //Method to get a shortest distance between two facilities
-    public int getDist(String start,String end) {
+
+    /** 
+    * @Title: getDist
+    * @Description: get a shortest distance between two facilities
+    */
+    public int getDist(String start,String end) throws ItemNotExistException {
+        if (!(getFclts().contains(start) && getFclts().contains(end))) {
+            throw new ItemNotExistException("Facility does not exist.");
+        }
         ArrayList<String> bestPath=getBestPath(start,end);
         int length=0;
         int i=0;
@@ -58,12 +75,18 @@ public class FacilityMgr {
         }
         return length;
     }
-    
-    //Method to print out the BestPath between two facilities    
-    public void printBestPath(String start,String end){
+
+    /** 
+    * @Title: printBestPath
+    * @Description: print out the BestPath between two facilities
+    */    
+    public void printBestPath(String start,String end) throws ItemNotExistException {
+        if (!(getFclts().contains(start) && getFclts().contains(end))) {
+            throw new ItemNotExistException("Facility does not exist.");
+        }
         ArrayList<String> bestPath=getBestPath(start,end);
         int dist=getDist(start,end);
-        //hourpD, milepH should be input paras
+        //In phase 1, temporarily set the hourpD, milepH to be constants
         final float hourpD=8;
         final float milepH=50;
         
@@ -93,7 +116,10 @@ public class FacilityMgr {
                          +" hours per day * "+milepH+" mph) = ");
         System.out.printf("%1.2f days\n",time);
     }
-    
-    
 
+    //Auxiliary method to get an array of facilities along a BestPath
+    private ArrayList<String> getBestPath(String start,String end){
+        BestPath bestpathInst=new BestPath(fclts);
+        return bestpathInst.findBestPath(start,end);
+    }
 }

@@ -3,6 +3,10 @@ package logistic_application;
 import java.util.Collection;
 import java.util.Map;
 
+/** 
+* @ClassName: FacilityImpl
+* @Description: implementation of facility using strategy pattern
+*/
 public class FacilityImpl implements Facility{
 	private String fcltName;
 	private int fcltRate;
@@ -12,13 +16,13 @@ public class FacilityImpl implements Facility{
 	private Schedule schedule;
 
 	public FacilityImpl(String fcltName, int fcltRate, int fcltCost, 
-                            Map<String, Integer> fcltNeighbors, Inventory fcltInventory, Schedule fcltSchedule){
+                            Map<String, Integer> fcltNeighbors, Inventory fcltInventory){
 	    this.fcltName = fcltName;
 	    this.fcltRate = fcltRate;
 	    this.fcltCost = fcltCost;
 	    this.neighbors = fcltNeighbors;
 	    this.inventory = fcltInventory;
-	    this.schedule = fcltSchedule;
+	    this.schedule = new Schedule(fcltRate);
 	}
 	  
 	@Override
@@ -36,7 +40,7 @@ public class FacilityImpl implements Facility{
 	    return fcltCost;
         }
 
-        @Override
+    @Override
 	public void printFacility(){
             System.out.println("------------------------------------------------------------------------");
             System.out.println(fcltName);
@@ -71,7 +75,7 @@ public class FacilityImpl implements Facility{
         }
         
         @Override
-        //Return a new collection of Neighbor names
+        //Return a new collection of all Neighbor names
         public Collection<String> getNeighbors(){
             Collection<String> fcltNeighbors=neighbors.keySet();
             return fcltNeighbors;
@@ -82,12 +86,10 @@ public class FacilityImpl implements Facility{
         public int getNeighborDist(String neighborName) {
             return neighbors.get(neighborName);
         }
-
-		@Override
-		public void printSchedule() {
-			// TODO Auto-generated method stub
-			schedule.printSche();
-		}
+        @Override
+        public void printSchedule() {
+            schedule.printSchd();
+        }
 
 
 }

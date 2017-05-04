@@ -6,15 +6,21 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 
-
+/** 
+* @ClassName: BestPath
+* @Description: calculate the best(shortest) path among facilites
+*/
 public class BestPath {
-    private HashMap<String,Integer> pairs;
+    private HashMap<String,Integer> pairs;      
     private HashSet<String> seen;
     private ArrayList<String> lowPath;
-    
     private HashMap<String, Facility> fclts;
 
-    //c'tor: load Facilities information
+
+    /** 
+    * @Title: BestPath(c'tor) 
+    * @Description: load Facilities information
+    */
     public BestPath(HashMap<String, Facility> fclts){
         this.fclts=fclts;
         pairs=new HashMap<String,Integer>();
@@ -22,7 +28,10 @@ public class BestPath {
         lowPath=new ArrayList<String>();
     }
     
-    //Method to get an array of facilities along BestPath
+    /** 
+    * @Title: findBestPath
+    * @Description: get an array of facilities along BestPath
+    */
     public ArrayList<String> findBestPath(String start,String end) {
         mapPairs(start);
         ArrayList<String> pathList=new ArrayList<String>();
@@ -30,7 +39,8 @@ public class BestPath {
         findPaths(start,end,pathList);
         return lowPath;
     }
-    
+
+
     //Auxiliary method to create pair-distance HashMap, recursive
     private void mapPairs(String init) {
         seen.add(init);

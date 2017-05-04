@@ -2,6 +2,10 @@ package logistic_application;
 
 import java.util.Collection;
 
+/** 
+* @ClassName: Facility
+* @Description: facility interface
+*/
 public interface Facility {
 
 	public String getfcltName();
@@ -14,12 +18,12 @@ public interface Facility {
 	
 	public void printSchedule();
 	
-        public void printNeighbors();
+    public void printNeighbors();
         
-        public void printInventory();
+    public void printInventory();
         
-        public Collection<String> getNeighbors();
+    public Collection<String> getNeighbors();
         
-        public int getNeighborDist(String neighborName);
+    public int getNeighborDist(String neighborName);
 
 }

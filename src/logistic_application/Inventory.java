@@ -2,36 +2,57 @@ package logistic_application;
 
 import java.util.Map;
 
+/** 
+* @ClassName: Inventory
+* @Description: inventory of one facility
+*/
 public class Inventory {
 
-	//private String id;
-	//private int quantity;
 	private Map<String, Integer> inventory;
 	
 	public Inventory(Map<String, Integer> inventory){
 		this.inventory = inventory;
 	}
-        
-    public boolean ownsItem(String itemId){
-         return inventory.containsKey(itemId);
-    }
-        
-    public int getItem(String itemId){
-         return inventory.get(itemId);
-     }
-         
-     //Input the required item Qtt, uptdate the facility Qtt and return new required Qtt
-    public int decreaseQtt(String itemId, int amount) {
-         int left=inventory.get(itemId);
-         if (amount<=left) {
-             inventory.put(itemId,left-amount);
-             return 0;
-         } else {
-             inventory.put(itemId,0);
-             return amount-left;
-         }
-     }
 
+    /** 
+    * @Title: ownsItem 
+    * @Description: check if inventory contains one item
+    */    
+    public boolean ownsItem(String itemId){
+        return inventory.containsKey(itemId);
+    }
+
+    /** 
+    * @Title: getItem 
+    * @Description: get the number of item in inventory
+    */   
+    public int getItem(String itemId) throws ItemNotExistException {
+        if (!inventory.containsKey(itemId)) {
+            throw new ItemNotExistException("Don't have item in inventory.");
+        }
+        return inventory.get(itemId);
+    }
+
+    /** 
+    * @Title: decreaseQtt 
+    * @Description: input a required item Qtt, uptdate the facility Qtt and return new required Qtt
+    */
+    public int decreaseQtt(String itemId, int amount) throws ItemNotExistException {
+        if (!inventory.containsKey(itemId)) throw new ItemNotExistException("Don't have item in inventory.");
+        int left=inventory.get(itemId);
+        if (amount<=left) {
+            inventory.put(itemId,left-amount);
+            return 0;
+        } else {
+            inventory.put(itemId,0);
+            return amount-left;
+        }
+    }
+
+    /** 
+    * @Title: printInv 
+    * @Description: print out the inventory list
+    */
     public void printInv() {
         System.out.println("Active Inventory:");
         System.out.println("   Item ID     Quantity");

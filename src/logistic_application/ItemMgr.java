@@ -2,13 +2,16 @@ package logistic_application;
 
 import java.util.ArrayList;
 
+/** 
+* @ClassName: ItemMgr
+* @Description: define higher-lever interface to "use" items in facade pattern
+*/
 public class ItemMgr {
 	
 	private ArrayList<Item> itemList;
 	
 	private static ItemMgr itemMgr;
 	
-	//load the file in c'tor   
     private ItemMgr(){
         itemList = ItemLoader.load();
     }
@@ -18,6 +21,10 @@ public class ItemMgr {
         return itemMgr;
     }
     
+    /** 
+    * @Title: printItemReport
+    * @Description: print out Item Report
+    */ 
     public void printItemReport(){
     	int i = 0;
         for (Item item: itemList){
@@ -26,6 +33,5 @@ public class ItemMgr {
         	if (i%4 == 0) System.out.println();
         }
     }
-    
 
 }

@@ -17,10 +17,18 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
+
+/** 
+* @ClassName: ItemLoader
+* @Description: load information through xml file and create items
+*/
 public class ItemLoader {
 
 	   
-    //The only static method to load facilities
+    /** 
+    * @Title: load 
+    * @Description: The only static method in class to create items
+    */ 
     public static ArrayList<Item> load() {
         
         ArrayList<Item> itemList = new ArrayList<Item>();
