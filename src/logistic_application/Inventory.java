@@ -1,6 +1,8 @@
 package logistic_application;
 
+import java.util.Arrays;
 import java.util.Map;
+import java.util.Set;
 
 /** 
 * @ClassName: Inventory
@@ -56,7 +58,10 @@ public class Inventory {
     public void printInv() {
         System.out.println("Active Inventory:");
         System.out.println("   Item ID     Quantity");
-        for (String item:inventory.keySet()){
+        String[] keySetS = (String[])inventory.keySet()
+                .toArray(new String[inventory.keySet().size()]);
+        Arrays.sort(keySetS);
+        for (String item:keySetS){
             if (inventory.get(item)>0) {
                 System.out.printf("   %-12s%d\n",item,inventory.get(item));
             }
@@ -64,7 +69,8 @@ public class Inventory {
         System.out.println();
         System.out.print("Depleted (Used-up) Inventory: ");
         boolean flag=false;
-        for (String item:inventory.keySet()){
+
+        for (String item:keySetS){
             if (inventory.get(item)==0) {
                 System.out.print(item+" ");
                 flag=true;
