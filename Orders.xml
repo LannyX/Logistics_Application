@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<Orders>
+
+	<Order>
+		<Id>TO-001</Id>
+		<OrderTime>1</OrderTime>
+		<Destination>Miami,FL</Destination>
+		<Item>
+			<Name>ABC123</Name> 
+			<Qty>180</Qty>
+		</Item>
+		<Item>
+			<Name>CR2032</Name>
+			<Qty>320</Qty>
+		</Item>
+	</Order>
+
+	<Order>
+		<Id>TO-002</Id>
+		<OrderTime>1</OrderTime>
+		<Destination>Boston,MA</Destination>
+		<Item>
+			<Name>PL132-C</Name> 
+			<Qty>5</Qty>
+		</Item>
+		<Item>
+			<Name>XLK200B</Name>
+			<Qty>120</Qty>
+		</Item>
+	</Order>
+
+	<Order>
+		<Id>TO-003</Id>
+		<OrderTime>4</OrderTime>
+		<Destination>Seattle,WA</Destination>
+		<Item>
+			<Name>XTP202</Name> 
+			<Qty>100</Qty>
+		</Item>
+		<Item>
+			<Name>E241i</Name>
+			<Qty>105</Qty>
+		</Item>
+	</Order>
+
+	<Order>
+		<Id>TO-004</Id>
+		<OrderTime>10</OrderTime>
+		<Destination>Phoenix,AZ</Destination>
+		<Item>
+			<Name>CR2032</Name> 
+			<Qty>200</Qty>
+		</Item>
+		<Item>
+			<Name>SR71-D</Name>
+			<Qty>85</Qty>
+		</Item>
+	</Order>
+
+
+	<Order>
+		<Id>TO-005</Id>
+		<OrderTime>7</OrderTime>
+		<Destination>Chicago,IL</Destination>
+		<Item>
+			<Name>XLK200B</Name> 
+			<Qty>120</Qty>
+		</Item>
+		<Item>
+			<Name>RX100-3</Name>
+			<Qty>200</Qty>
+		</Item>
+		<Item>
+			<Name>SN-241-L</Name>
+			<Qty>60</Qty>
+		</Item>		
+	</Order>
+
+	<Order>
+		<Id>TO-006</Id>
+		<OrderTime>1</OrderTime>
+		<Destination>Denver,CO</Destination>
+		<Item>
+			<Name>CT1928</Name> 
+			<Qty>120</Qty>
+		</Item>
+		<Item>
+			<Name>MM35P</Name>
+			<Qty>200</Qty>
+		</Item>
+	</Order>
+
+
+</Orders>
