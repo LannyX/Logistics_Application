@@ -1,4 +1,4 @@
-package logistic_application;
+package facility;
 
 import java.util.HashMap;
 import java.util.Map;

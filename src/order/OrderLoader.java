@@ -1,5 +1,6 @@
-package logistic_application;
+package order;
 
+import order.Order;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;

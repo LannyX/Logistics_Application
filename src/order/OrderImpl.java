@@ -1,5 +1,6 @@
-package logistic_application;
+package order;
 
+import order.Order;
 import java.util.Collections;
 import java.util.Map;
 import java.util.TreeMap;

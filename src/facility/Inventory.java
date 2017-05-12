@@ -1,8 +1,10 @@
-package logistic_application;
+package facility;
 
+import exception.DataValidationException;
+import exception.NullParamException;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Map;
-import java.util.Set;
 
 /** 
 * @ClassName: Inventory
@@ -23,14 +25,25 @@ public class Inventory {
     public boolean ownsItem(String itemId){
         return inventory.containsKey(itemId);
     }
-
+    
     /** 
-    * @Title: getItem 
+    * @Title: getItems
+    * @Description: get a collection of all items in inventory
+    */
+    public Collection<String> getItems() {
+        return inventory.keySet();
+    }
+    
+    /** 
+    * @Title: getQtt 
     * @Description: get the number of item in inventory
     */   
-    public int getItem(String itemId) throws ItemNotExistException {
+    public int getQtt(String itemId) throws NullParamException,DataValidationException{
+        if (itemId==null) {
+            throw new NullParamException("Null item Id is not allowed.");
+        }
         if (!inventory.containsKey(itemId)) {
-            throw new ItemNotExistException("Don't have item in inventory.");
+            throw new DataValidationException("No such item in this inventory.");
         }
         return inventory.get(itemId);
     }
@@ -39,8 +52,11 @@ public class Inventory {
     * @Title: decreaseQtt 
     * @Description: input a required item Qtt, uptdate the facility Qtt and return new required Qtt
     */
-    public int decreaseQtt(String itemId, int amount) throws ItemNotExistException {
-        if (!inventory.containsKey(itemId)) throw new ItemNotExistException("Don't have item in inventory.");
+    public int decreaseQtt(String itemId, int amount) throws 
+                                    NullParamException,DataValidationException{
+        if (itemId==null) throw new NullParamException("Null item Id is not allowed.");
+        if (!inventory.containsKey(itemId)) 
+            throw new DataValidationException("No such item in this inventory.");
         int left=inventory.get(itemId);
         if (amount<=left) {
             inventory.put(itemId,left-amount);

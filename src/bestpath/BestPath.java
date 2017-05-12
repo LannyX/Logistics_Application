@@ -1,6 +1,8 @@
 
-package logistic_application;
+package bestpath;
 
+import facility.Facility;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -39,8 +41,7 @@ public class BestPath {
         findPaths(start,end,pathList);
         return lowPath;
     }
-
-
+    
     //Auxiliary method to create pair-distance HashMap, recursive
     private void mapPairs(String init) {
         seen.add(init);
@@ -93,6 +94,53 @@ public class BestPath {
             i++; 
         }
         return length;
+    }
+
+    /**
+    * @Title: printlowPath
+    * @Description: print out the path along lowPath
+    * @param hourpD: driving hours per day
+    * @param milepH: average miles per hour
+    */    
+    public void printlowPath(float hourpD, float milepH){
+        String start=lowPath.get(0);
+        String end=lowPath.get(lowPath.size()-1);
+        int dist=getLength(lowPath);
+        
+        
+        float time=dist/hourpD/milepH;
+        
+        System.out.print(start+" to "+end+":"+"\n");
+        System.out.print("    ·   ");
+        
+        int i=0;
+        while (true) {
+            if (i==(lowPath.size()-1)) {
+                System.out.print(lowPath.get(i));
+                break;
+            }
+            if (i==5) {
+                System.out.print(lowPath.get(i)+"\n"+"         → ");
+                i++;
+                continue;
+            }
+            System.out.print(lowPath.get(i)+" → ");
+            i++;
+        }
+        DecimalFormat df=new DecimalFormat("#,###"); 
+        System.out.print(" = "+df.format(dist)+" mi"+"\n");
+        
+        System.out.print("    ·   "+df.format(dist)+" mi / ("+hourpD
+                         +" hours per day * "+milepH+" mph) = ");
+        System.out.printf("%1.2f days\n",time);
+    }
+    
+    /**
+    * @Title: getlowPathLength
+    * @Description: calculate the path length along lowPath
+    */  
+    public int getlowPathLength(){
+        return getLength(lowPath);
     }
 
     

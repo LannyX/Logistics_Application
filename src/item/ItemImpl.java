@@ -1,4 +1,4 @@
-package logistic_application;
+package item;
 
 import java.text.DecimalFormat;
 

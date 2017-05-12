@@ -1,5 +1,8 @@
-package logistic_application;
+package facility;
 
+import exception.DataValidationException;
+import exception.NullParamException;
+import item.ItemMgr;
 import java.util.Collection;
 import java.util.Map;
 
@@ -16,7 +19,32 @@ public class FacilityImpl implements Facility{
 	private Schedule schedule;
 
 	public FacilityImpl(String fcltName, int fcltRate, int fcltCost, 
-                            Map<String, Integer> fcltNeighbors, Inventory fcltInventory){
+                            Map<String, Integer> fcltNeighbors, Inventory fcltInventory)
+                            throws NullParamException,DataValidationException{
+            
+            //Handle exceptions of input fcltName
+            if (fcltName==null) throw new NullParamException("Null facility is not allowed.");
+            if (fcltName.equals("")) throw new DataValidationException("Empty facility name is not allowed.");
+            //Exception of fcltRate and fcltCost            
+            if (fcltRate<0) throw new DataValidationException("Negative facility rate is unreasonable.");
+            if (fcltCost<0) throw new DataValidationException("Negative facility cost is unreasonable.");
+            //Exception of fcltNeighbors               
+            for (String neighborName: fcltNeighbors.keySet()) {
+                if (neighborName==null) throw new NullParamException("Null neighbor is not allowed.");
+                if (neighborName.equals("")) 
+                    throw new DataValidationException("Empty neighbor name is not allowed.");
+                
+                if (fcltNeighbors.get(neighborName)<=0) 
+                    throw new DataValidationException("Non-positive distance between facilities is unreasonable.");
+            }
+            //Exception of inventory  
+            for (String itemId: fcltInventory.getItems()) {
+                if (!ItemMgr.getInstance().itemExist(itemId))
+                    throw new DataValidationException("Inventory contains item not existing in catalog.");
+                if (fcltInventory.getQtt(itemId)<0)
+                    throw new DataValidationException("Negative item number in inventory is unreasonable.");
+            }
+
 	    this.fcltName = fcltName;
 	    this.fcltRate = fcltRate;
 	    this.fcltCost = fcltCost;

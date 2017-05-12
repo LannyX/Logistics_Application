@@ -1,4 +1,4 @@
-package logistic_application;
+package order;
 
 public interface Order {
 

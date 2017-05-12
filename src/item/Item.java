@@ -1,4 +1,4 @@
-package logistic_application;
+package item;
 
 /** 
 * @ClassName: Item

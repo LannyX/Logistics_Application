@@ -1,5 +1,6 @@
-package logistic_application;
+package order;
 
+import order.Order;
 import java.util.ArrayList;
 import java.util.Collection;
 

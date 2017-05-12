@@ -1,9 +1,7 @@
-package logistic_application;
+package item;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.parsers.DocumentBuilder;
@@ -72,7 +70,7 @@ public class ItemLoader {
                 String itemPriceS = fclt.getElementsByTagName("Price").item(0).getTextContent();
                 int itemPrice = Integer.parseInt(itemPriceS);
 
-                Item item = ItemImplFactory.createItem(itemId, itemPrice);
+                Item item = ItemFactory.createItem(itemId, itemPrice);
                 itemList.add(item);
             }
 

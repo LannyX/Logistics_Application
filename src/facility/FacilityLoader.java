@@ -1,11 +1,12 @@
 
-package logistic_application;
+package facility;
 
+import exception.DataValidationException;
+import exception.NullParamException;
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
-
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -121,15 +122,20 @@ public class FacilityLoader {
                     inventories.put(inventoryItemID, inventoryQtt); 
                 }
                 
-                Facility facility = FacilityImplFactory.createFacility(fcltName, 
+                // Handle duplicate facility data
+                if (fclts.containsKey(fcltName)) {
+                    System.err.println("Duplicate facility data found: " + fcltName);
+                    continue;
+                }
+                Facility facility = FacilityFactory.createFacility(fcltName, 
                                     fcltRate, fcltCost, neighbors, new Inventory(inventories));
                 fclts.put(fcltName,facility);
             }
 
-        } catch (ParserConfigurationException | SAXException | IOException | DOMException e) {
-            e.printStackTrace();
+        } catch (NullParamException | DataValidationException | ParserConfigurationException 
+                | SAXException | IOException | DOMException e) {
+            System.out.println(e.getMessage());
         }
-        
         return fclts;
     }
 }

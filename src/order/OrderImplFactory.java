@@ -1,5 +1,7 @@
-package logistic_application;
+package order;
 
+import order.OrderImpl;
+import order.Order;
 import java.util.Map;
 
 public class OrderImplFactory {
