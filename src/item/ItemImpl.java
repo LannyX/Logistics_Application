@@ -1,5 +1,7 @@
 package item;
 
+import exception.DataValidationException;
+import exception.NullParamException;
 import java.text.DecimalFormat;
 
 /** 
@@ -11,9 +13,15 @@ public class ItemImpl implements Item{
 	private String itemId;
 	private int itemPrice;
 	
-	public ItemImpl(String itemId, int itemPrice){
-		this.itemId = itemId;
-		this.itemPrice = itemPrice;
+	public ItemImpl(String itemId, int itemPrice)
+                            throws NullParamException,DataValidationException{
+                //Handle exceptions of input itemId
+                if (itemId==null) throw new NullParamException("Null item is not allowed.");
+                if (itemId.equals("")) throw new DataValidationException("Empty item Id is not allowed.");
+                //Exception of itemPrice            
+                if (itemPrice<0) throw new DataValidationException("Negative item price is unreasonable.");    
+                this.itemId = itemId;
+                this.itemPrice = itemPrice;
 	}
 
 	@Override

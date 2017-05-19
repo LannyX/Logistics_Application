@@ -1,4 +1,6 @@
 package item;
+import exception.DataValidationException;
+import exception.NullParamException;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -70,12 +72,19 @@ public class ItemLoader {
                 String itemPriceS = fclt.getElementsByTagName("Price").item(0).getTextContent();
                 int itemPrice = Integer.parseInt(itemPriceS);
 
+                // Handle duplicate facility data
+                for (Item item:itemList)
+                    if (item.getItemId().equals(itemId)) {
+                        System.err.println("Duplicate item data found: " + itemId);
+                        continue;
+                }
                 Item item = ItemFactory.createItem(itemId, itemPrice);
                 itemList.add(item);
             }
 
-        } catch (ParserConfigurationException | SAXException | IOException | DOMException e) {
-            e.printStackTrace();
+        } catch (NullParamException | DataValidationException | ParserConfigurationException 
+                | SAXException | IOException | DOMException e) {
+            System.out.println(e.getMessage());
         }
         
         return itemList;
