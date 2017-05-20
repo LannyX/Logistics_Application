@@ -34,7 +34,7 @@ public class OrderMgr {
         return new OrderDTO (order.getOrderId(),order.getOrderTime(),order.getDesination(),orderItems);
     }
     
-    public int getOrderNum() {
+    public int getOrderCount() {
         return orders.size();
     }
     

@@ -46,19 +46,16 @@ public class OrderImpl implements Order{
 	
 	@Override
 	public String getOrderId() {
-		// TODO Auto-generated method stub
 		return orderId;
 	}
 
 	@Override
 	public int getOrderTime() {
-		// TODO Auto-generated method stub
 		return orderTime;
 	}
 
 	@Override
 	public String getDesination() {
-		// TODO Auto-generated method stub
 		return orderDest;
 	}
 

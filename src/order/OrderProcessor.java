@@ -15,7 +15,7 @@ import java.util.HashMap;
 public class OrderProcessor {
     
     //存放单个order的solution
-    private ArrayList<Solution> solutions;
+    private ArrayList<FcltRecord> solutions;
     
     
     //方法1：处理多个order：
@@ -34,40 +34,54 @@ public class OrderProcessor {
         final float hourpD=8;
         final float milepH=50;
         
+        RecordComparator comparator=new RecordComparator();
+        
         for(String item: order.items.keySet()){
             if (!ItemMgr.getInstance().itemExist(item)) {
                 System.out.println(item+" does not exist.");
                 continue;
             }
+            
             int requiredQtt=order.items.get(item);
-            HashMap<String,Integer> fcltsOwnItem=FacilityMgr.getInstance().getFcltsOwnItem(item, order.dest);
-            if (!fcltsOwnItem.isEmpty()) {
-                for (String fclt: fcltsOwnItem.keySet()) {
-                    
-                    int fcltQtt=fcltsOwnItem.get(fclt);
-                    int processed;
-                    if (fcltQtt<=requiredQtt) processed=fcltQtt;
-                    else processed=requiredQtt;
-                    
-                    //determine travel day
-                    int dist=FacilityMgr.getInstance().getDist(fclt, order.dest);
-                    float travelTime=dist/hourpD/milepH;
-                    //determine processing end day
-                    int endDay=FacilityMgr.getInstance().getProcEndDayAtFclt(fclt, order.time, processed);
-                    
-                    int arrivalDay=(int) Math.ceil(travelTime+endDay);
-                    
-                    FcltRecord fcltRC=new FcltRecord(fclt,processed,endDay,travelTime,arrivalDay);
+            //While Qtt remaining
+            while (requiredQtt>0) {
+                //Identify all facilities with desired item
+                HashMap<String,Integer> fcltsOwnItem=FacilityMgr.getInstance().getFcltsOwnItem(item, order.dest);
+                if (!fcltsOwnItem.isEmpty()) {
+                    ArrayList<FcltRecord> records=new ArrayList<>();
+                    //For each identified facility
+                    for (String fclt: fcltsOwnItem.keySet()) {
 
+                        //Determine processing Qtt
+                        int processed;
+                        int fcltOwnQtt=fcltsOwnItem.get(fclt);
+                        if (fcltOwnQtt<=requiredQtt) processed=fcltOwnQtt;
+                        else processed=requiredQtt;
+
+                        //Calculate the shortest path (in days) from fclt to dest
+                        int dist=FacilityMgr.getInstance().getDist(fclt, order.dest);
+                        float travelTime=dist/hourpD/milepH;
+                        //Determine processing end day
+                        int endDay=FacilityMgr.getInstance().getProcEndDayAtFclt(fclt, order.time, processed);
+                        //Generate the “Arrival Day”
+                        int arrivalDay=(int) Math.ceil(travelTime+endDay);
+                        //Save this information as a Facility Record
+                        FcltRecord fcltRcd=new FcltRecord(item,fclt,processed,endDay,travelTime,arrivalDay);
+                        records.add(fcltRcd);
+                    }
+                    
+                    //Select the facility with the earliest (lowest) Arrival Day
+                    records.sort(comparator);
+                    FcltRecord selectedRcd=records.get(0);
+                    //进行方法3部分的处理，是否另外定义或者直接写？-TBC
                     
                     
                 }
-            }
-            else {
-                //generate back-order
-            }
+                else {
+                    //generate back-order
+                }
 
-            
+            }
             
             
         }

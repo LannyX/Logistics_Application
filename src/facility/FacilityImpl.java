@@ -121,7 +121,7 @@ public class FacilityImpl implements Facility{
 
     @Override
     public boolean hasItem(String item) {
-        return inventory.ownsItem(item) && !(inventory.getItems().equals(0));
+        return inventory.ownsItem(item) && (inventory.getQtt(item)!=0);
     }
 
     @Override

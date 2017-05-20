@@ -9,14 +9,17 @@ package order;
  *
  * @author dell
  */
-public class FcltRecord implements Comparable<FcltRecord>  {
+public class FcltRecord {
+
+    public String item;    
     public String fcltName;
     public int itemProcessed;
     public int processEndDay;
     public float travelTime;
     public int arrivalDay;
 
-    public FcltRecord(String fcltName, int itemProcessed, int processEndDay, float travelTime, int arrivalDay) {
+    public FcltRecord(String item, String fcltName, int itemProcessed, int processEndDay, float travelTime, int arrivalDay) {
+        this.item=item;
         this.fcltName = fcltName;
         this.itemProcessed = itemProcessed;
         this.processEndDay = processEndDay;
@@ -25,10 +28,6 @@ public class FcltRecord implements Comparable<FcltRecord>  {
     }
     
     
-    public int compareTo(FcltRecord other) {
-        return (arrivalDay-other.arrivalDay);
-    }
-
 
     
 }
