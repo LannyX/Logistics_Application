@@ -25,5 +25,13 @@ public interface Facility {
     public Collection<String> getNeighbors();
         
     public int getNeighborDist(String neighborName);
+    
+    
+    
+    public boolean hasItem(String item);
+    
+    public int getItemQtt(String item);
+    
+    public int getProcEndDay (int startDay, int qtt);
 
 }

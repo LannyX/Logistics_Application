@@ -13,7 +13,7 @@ public class Schedule {
 	private Map<Integer, Integer> schedule;
 	
 	/** 
-    * @Title: Schedule (c'tor) 
+    * @Title: Schedule  
     * @Description: create a schedule(Map) according to fcltRate
     */
 	public Schedule (int fcltRate){
@@ -24,22 +24,6 @@ public class Schedule {
             this.schedule = schedule;
 	}
 	
-	/** 
-    * @Title: get 
-    * @Description: to get processing capacity of one day
-    */
-	public int get(int day){
-        //to be modified in phase 2
-        return schedule.get(day);
-	}
-
-	/** 
-    * @Title: update
-    * @Description: update schedule according to startDay and to-be-processed items
-    */
-	public void update(int startDay, int items){
-            //to be modified in phase 2
-	}
 	
 	/** 
     * @Title: printSchd
@@ -61,4 +45,21 @@ public class Schedule {
 		}
         System.out.println();
 	}
+        
+        //calculate end day for processing (a part of) order
+        public int getEndDay (int startDay, int qtt) {
+            while (true) {
+                int left=schedule.get(startDay);
+                if (qtt<=left) return startDay;
+                else {
+                    qtt-=left;
+                    startDay++;
+                }
+            }
+        }
+        
+        //book days        
+        public void bookSchd (int startDay, int qtt) {
+            
+        }
 }

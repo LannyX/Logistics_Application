@@ -119,5 +119,24 @@ public class FacilityImpl implements Facility{
             schedule.printSchd();
         }
 
+    @Override
+    public boolean hasItem(String item) {
+        return inventory.ownsItem(item) && !(inventory.getItems().equals(0));
+    }
+
+    @Override
+    public int getItemQtt(String item) {
+        return inventory.getQtt(item);
+    }
+
+    @Override
+    public int getProcEndDay(int startDay, int qtt) {
+        return schedule.getEndDay(startDay, qtt);
+    }
+    
+    
+
+       
+        
 
 }

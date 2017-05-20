@@ -62,6 +62,11 @@ public class FacilityMgr {
     public Collection<String> getFclts() {
         return fclts.keySet();
     }
+    
+    
+    public boolean fcltExist(String fclt) {
+        return fclts.keySet().contains(fclt);
+    }
 
     /** 
     * @Title: getDist
@@ -101,4 +106,21 @@ public class FacilityMgr {
         bestpathInst.printlowPath(hourpD, milepH);
     }
 
+    
+    public HashMap<String,Integer> getFcltsOwnItem (String item, String orderDest) {
+        HashMap<String,Integer> fcltsOwnItem=new HashMap<String,Integer>();
+        for (String fclt:fclts.keySet()) {
+            if (!fclt.equals(orderDest) && fclts.get(fclt).hasItem(item)) {
+                fcltsOwnItem.put(fclt, fclts.get(fclt).getItemQtt(item));
+            }
+        }
+        return fcltsOwnItem;
+    }
+    
+    
+    public int getProcEndDayAtFclt(String fclt,int startDay, int qtt){
+        return fclts.get(fclt).getProcEndDay(startDay, qtt);
+    }
+    
+    
 }

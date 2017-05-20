@@ -38,13 +38,7 @@ public class Inventory {
     * @Title: getQtt 
     * @Description: get the number of item in inventory
     */   
-    public int getQtt(String itemId) throws NullParamException,DataValidationException{
-        if (itemId==null) {
-            throw new NullParamException("Null item Id is not allowed.");
-        }
-        if (!inventory.containsKey(itemId)) {
-            throw new DataValidationException("No such item in this inventory.");
-        }
+    public int getQtt(String itemId) {
         return inventory.get(itemId);
     }
 
