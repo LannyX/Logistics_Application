@@ -17,7 +17,7 @@ public class FacilityMgr {
 
 
     /** 
-    * @Title: FacilityMgr(c'tor) 
+    * @Title: FacilityMgr 
     * @Description: load Facilities information
     */
     private FacilityMgr(){
@@ -122,5 +122,19 @@ public class FacilityMgr {
         return fclts.get(fclt).getProcEndDay(startDay, qtt);
     }
     
+    public void reduceItemAtFclt(String fclt,String item,int amount){
+        fclts.get(fclt).reduceItem(item, amount);
+    }
     
+    public void bookSchdAtFclt(String fclt,int startDay,int qtt){
+        fclts.get(fclt).bookSchd(startDay, qtt);
+    }
+    
+    public int getFcltRate(String fclt){
+        return fclts.get(fclt).getfcltRate();
+    }
+    
+    public int getFcltCost(String fclt){
+        return fclts.get(fclt).getfcltCost();
+    }
 }

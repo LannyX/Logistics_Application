@@ -60,6 +60,17 @@ public class Schedule {
         
         //book days        
         public void bookSchd (int startDay, int qtt) {
-            
+            while (true) {
+                int left=schedule.get(startDay);
+                if (qtt<=left) {
+                    schedule.put(startDay,left-qtt);
+                    break;
+                }
+                else {
+                    schedule.put(startDay,0);
+                    qtt-=left;
+                    startDay++;
+                }
+            }
         }
 }

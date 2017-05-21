@@ -133,6 +133,16 @@ public class FacilityImpl implements Facility{
     public int getProcEndDay(int startDay, int qtt) {
         return schedule.getEndDay(startDay, qtt);
     }
+
+    @Override
+    public void reduceItem(String item, int amount){
+        inventory.reduceQtt(item, amount);
+    }
+
+    @Override
+    public void bookSchd(int startDay, int qtt) {
+        schedule.bookSchd(startDay, qtt);
+    }
     
     
 

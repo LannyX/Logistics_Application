@@ -1,13 +1,14 @@
 package order;
 
-import order.Order;
+import exception.DataValidationException;
+import exception.NullParamException;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
 
 public class OrderMgr {
 
 	private ArrayList<Order> orders;
+	//private ArrayList<Order> backOrders;        
 	private static OrderMgr orderMgr;
 	
     private OrderMgr(){
@@ -19,14 +20,16 @@ public class OrderMgr {
         return orderMgr;
     }
     
-    public void printReport(){
+    public void printReport() throws NullParamException, DataValidationException{
+        OrderProcessor.getInstance().procOrder();
         for (int i=0; i<orders.size(); i++){
             orders.get(i).printOrder();
+           // OrderProcessor.getInstance().printOneSolution(i+1);
         }
     }
     
     public OrderDTO getOrder (int i) {
-        Order order=orders.get(i);
+        Order order=orders.get(i-1);
         HashMap<String, Integer> orderItems=new HashMap<>();
         for (String item:order.getItems()) {
             orderItems.put(item, order.getItemQtt(item));
@@ -38,5 +41,6 @@ public class OrderMgr {
         return orders.size();
     }
     
+    //public void generateBackOrder()
     
 }

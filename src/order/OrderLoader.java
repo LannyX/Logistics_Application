@@ -1,5 +1,7 @@
 package order;
 
+import exception.DataValidationException;
+import exception.NullParamException;
 import order.Order;
 import java.io.File;
 import java.io.IOException;
@@ -91,14 +93,15 @@ public static ArrayList<Order> load() {
                 }
                         
 
-                Order orderobj = OrderImplFactory.createOrder(orderId, 
+                Order orderobj = OrderFactory.createOrder(orderId, 
                                     orderTime, orderDest, items);
                 //fclts.put(fcltName,facility);
                 orders.add(orderobj);
             }
 
-        } catch (ParserConfigurationException | SAXException | IOException | DOMException e) {
-            e.printStackTrace();
+        } catch (NullParamException | DataValidationException | ParserConfigurationException 
+                | SAXException | IOException | DOMException e) {
+            System.out.println(e.getMessage());
         }
         
         return orders;

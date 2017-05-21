@@ -11,19 +11,21 @@ package order;
  */
 public class FcltRecord {
 
+    public int orderIdx;
     public String item;    
     public String fcltName;
     public int itemProcessed;
-    public int processEndDay;
-    public float travelTime;
+    public int procEndDay;
+    public float travelDay;
     public int arrivalDay;
 
-    public FcltRecord(String item, String fcltName, int itemProcessed, int processEndDay, float travelTime, int arrivalDay) {
+    public FcltRecord(int orderIdx, String item, String fcltName, int itemProcessed, int procEndDay, float travelDay, int arrivalDay) {
+        this.orderIdx=orderIdx;
         this.item=item;
         this.fcltName = fcltName;
         this.itemProcessed = itemProcessed;
-        this.processEndDay = processEndDay;
-        this.travelTime = travelTime;
+        this.procEndDay = procEndDay;
+        this.travelDay = travelDay;
         this.arrivalDay = arrivalDay;
     }
     

@@ -1,7 +1,5 @@
 package facility;
 
-import exception.DataValidationException;
-import exception.NullParamException;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Map;
@@ -43,14 +41,10 @@ public class Inventory {
     }
 
     /** 
-    * @Title: decreaseQtt 
-    * @Description: input a required item Qtt, uptdate the facility Qtt and return new required Qtt
+    * @Title: reduceQtt 
+    * @Description: input a required item amount, update the facility item amount and return new required amount
     */
-    public int decreaseQtt(String itemId, int amount) throws 
-                                    NullParamException,DataValidationException{
-        if (itemId==null) throw new NullParamException("Null item Id is not allowed.");
-        if (!inventory.containsKey(itemId)) 
-            throw new DataValidationException("No such item in this inventory.");
+    public int reduceQtt(String itemId, int amount) {
         int left=inventory.get(itemId);
         if (amount<=left) {
             inventory.put(itemId,left-amount);

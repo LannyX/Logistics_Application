@@ -33,5 +33,9 @@ public interface Facility {
     public int getItemQtt(String item);
     
     public int getProcEndDay (int startDay, int qtt);
+    
+    public void reduceItem(String item,int amount);
+    
+    public void bookSchd(int startDay,int qtt);
 
 }

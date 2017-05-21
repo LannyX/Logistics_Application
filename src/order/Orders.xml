@@ -5,7 +5,7 @@
 	<Order>
 		<Id>TO-001</Id>
 		<OrderTime>1</OrderTime>
-		<Destination>Miami,FL</Destination>
+		<Destination>Miami, FL</Destination>
 		<Item>
 			<Name>ABC123</Name> 
 			<Qty>180</Qty>
@@ -19,7 +19,7 @@
 	<Order>
 		<Id>TO-002</Id>
 		<OrderTime>1</OrderTime>
-		<Destination>Boston,MA</Destination>
+		<Destination>Boston, MA</Destination>
 		<Item>
 			<Name>PL132-C</Name> 
 			<Qty>5</Qty>
@@ -33,7 +33,7 @@
 	<Order>
 		<Id>TO-003</Id>
 		<OrderTime>4</OrderTime>
-		<Destination>Seattle,WA</Destination>
+		<Destination>Seattle, WA</Destination>
 		<Item>
 			<Name>XTP202</Name> 
 			<Qty>100</Qty>
@@ -47,7 +47,7 @@
 	<Order>
 		<Id>TO-004</Id>
 		<OrderTime>10</OrderTime>
-		<Destination>Phoenix,AZ</Destination>
+		<Destination>Phoenix, AZ</Destination>
 		<Item>
 			<Name>CR2032</Name> 
 			<Qty>200</Qty>
@@ -62,7 +62,7 @@
 	<Order>
 		<Id>TO-005</Id>
 		<OrderTime>7</OrderTime>
-		<Destination>Chicago,IL</Destination>
+		<Destination>Chicago, IL</Destination>
 		<Item>
 			<Name>XLK200B</Name> 
 			<Qty>120</Qty>
@@ -80,7 +80,7 @@
 	<Order>
 		<Id>TO-006</Id>
 		<OrderTime>1</OrderTime>
-		<Destination>Denver,CO</Destination>
+		<Destination>Denver, CO</Destination>
 		<Item>
 			<Name>CT1928</Name> 
 			<Qty>120</Qty>

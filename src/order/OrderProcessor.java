@@ -9,26 +9,35 @@ import exception.DataValidationException;
 import exception.NullParamException;
 import facility.FacilityMgr;
 import item.ItemMgr;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 
 public class OrderProcessor {
     
-    //存放单个order的solution
     private ArrayList<FcltRecord> solutions;
+    private static OrderProcessor orderProc;
+
+    
+    private OrderProcessor() {
+        solutions=new ArrayList<FcltRecord>();
+    }
+    
+    public static OrderProcessor getInstance(){
+        if (orderProc==null) orderProc = new OrderProcessor();
+        return orderProc;
+    }
     
     
-    //方法1：处理多个order：
-    //      1. 调用orderMgr，获得每个orderDTO；
-    //      2. 调用方法2，求解；
-    //      3. 生成solution的集合
-   
+    public void procOrder()throws NullParamException,DataValidationException{
+        for (int orderIdx=1;orderIdx<=OrderMgr.getInstance().getOrderCount();orderIdx++){
+            OrderDTO order=OrderMgr.getInstance().getOrder(orderIdx);
+            procOneOrder(order,orderIdx);
+        }
+    }
     
-    //方法2：处理单个order。
-    //      1.调用fcltMgr，读取fclt的item信息生成fclt集合(hashmap)、从fclt到指定地点的shortestpath->travel time，fclt的process time，fclt的ArrivalDay
-    //      2. 生成fclt record；
-    //      3. 排序，对最优解调用processTop；
-    private void oneOrderProc (OrderDTO order)
+    
+    private void procOneOrder(OrderDTO order,int orderIdx)
                     throws NullParamException,DataValidationException{
         //Temporarily set the hourpD, milepH to be constants
         final float hourpD=8;
@@ -37,6 +46,7 @@ public class OrderProcessor {
         RecordComparator comparator=new RecordComparator();
         
         for(String item: order.items.keySet()){
+            //Verify Item is a “real” item from the item Catalog
             if (!ItemMgr.getInstance().itemExist(item)) {
                 System.out.println(item+" does not exist.");
                 continue;
@@ -60,39 +70,124 @@ public class OrderProcessor {
 
                         //Calculate the shortest path (in days) from fclt to dest
                         int dist=FacilityMgr.getInstance().getDist(fclt, order.dest);
-                        float travelTime=dist/hourpD/milepH;
+                        float travelDay=dist/hourpD/milepH;
                         //Determine processing end day
-                        int endDay=FacilityMgr.getInstance().getProcEndDayAtFclt(fclt, order.time, processed);
+                        int procEndDay=FacilityMgr.getInstance().getProcEndDayAtFclt(fclt, order.time, processed);
                         //Generate the “Arrival Day”
-                        int arrivalDay=(int) Math.ceil(travelTime+endDay);
+                        int arrivalDay=(int) Math.ceil(travelDay+procEndDay);
                         //Save this information as a Facility Record
-                        FcltRecord fcltRcd=new FcltRecord(item,fclt,processed,endDay,travelTime,arrivalDay);
+                        FcltRecord fcltRcd=new FcltRecord(orderIdx,item,fclt,processed,procEndDay,travelDay,arrivalDay);
                         records.add(fcltRcd);
                     }
                     
                     //Select the facility with the earliest (lowest) Arrival Day
                     records.sort(comparator);
-                    FcltRecord selectedRcd=records.get(0);
-                    //进行方法3部分的处理，是否另外定义或者直接写？-TBC
+                    FcltRecord topRcd=records.get(0);
                     
+                    //Reduce the inventory of the selected site by the number of items in the Facility Record
+                    FacilityMgr.getInstance().reduceItemAtFclt(topRcd.fcltName,item,topRcd.itemProcessed);
+                    
+                    //Reduce the Order Item quantity needed by the number of items processed in the Facility Record
+                    requiredQtt-=topRcd.itemProcessed;
+                    
+                    //Update the schedule of the selected site (book the time represented in the Site Record)
+                    FacilityMgr.getInstance().bookSchdAtFclt(topRcd.fcltName,order.time,topRcd.itemProcessed);
+                    
+                    //Add this Facility Record to the order Item solution list
+                    solutions.add(topRcd);
                     
                 }
                 else {
                     //generate back-order
+                    break;
                 }
-
             }
-            
-            
         }
-            
     }
-
-
     
-    //方法3：processtop 更改fclt信息
-    //      1. 调用fcltMgr，更改 fclt inventory（item number）；
-    //      2. 同上，更改schedule；
-    //      3. 生成或添加到solution list
+    public void printOneSolution(int orderIdx) throws NullParamException, DataValidationException{
+        System.out.println("  Processing Solution:");
+        DecimalFormat df=new DecimalFormat("#,###.##"); 
+        float totalCost=0;
+        
+        String lastItem="";
+        boolean isFirst=true;
+        int itemQtt=0;
+        float itemCost=0;
+
+        int arriveDayMin=0, arriveDayMax=0;
+        int printIdx=1;
+        
+        
+        for(FcltRecord record:solutions){
+            if (orderIdx==record.orderIdx) {
+                
+                String item=record.item;  
+                float cost=getRecordCost(record);
+		String costS = df.format(cost);
+                
+                if (!item.equals(lastItem)) {
+                    if (!isFirst) {
+                        isFirst=false;
+                        String itemCostS=df.format(itemCost); 
+                        if (arriveDayMin==arriveDayMax){
+                            System.out.printf("           TOTAL                 %-12d$%-23s[%d]\n\n",
+                                                itemQtt,itemCostS,arriveDayMin); 
+                        }
+                        else {
+                            System.out.printf("           TOTAL                 %-12d$%-23s[%d - %d]\n\n",
+                                                itemQtt,itemCostS,arriveDayMin,arriveDayMax);    
+                        }
+                        
+                    }
+                    totalCost+=itemCost;
+                    printIdx=1;
+                    System.out.println("  "+item+":");
+                    System.out.println("           Facility              Quantity"
+                            + "      Cost                    Arrival Day");
+                    System.out.printf("      %d)  %-22s%-12d$%-23s%d\n",
+                            printIdx,record.fcltName,record.itemProcessed,costS,record.arrivalDay);
+                    lastItem=item;
+                    
+                    itemQtt=record.itemProcessed; 
+                    itemCost=cost;
+                    arriveDayMin=record.arrivalDay;
+                    arriveDayMax=record.arrivalDay;
+                }
+                else {
+                    printIdx++;
+                    System.out.printf("      %d)  %-22s%-12d$%-23s%d\n",
+                            printIdx,record.fcltName,record.itemProcessed,costS,record.arrivalDay);
+                    lastItem=item;
+                    
+                    itemQtt+=record.itemProcessed;
+                    itemCost+=cost;
+                    
+                    if (record.arrivalDay<arriveDayMin) arriveDayMin=record.arrivalDay;
+                    if (record.arrivalDay>arriveDayMax) arriveDayMax=record.arrivalDay;
+                    
+                }
+            }
+        }
+        String totalCostS=df.format(totalCost);
+        System.out.printf("  Total Cost:        %s\n",totalCostS);
+    }
+    
+    
+    
+    private float getRecordCost(FcltRecord record) throws NullParamException, DataValidationException{
+        String fclt=record.fcltName;
+        String item=record.item;
+        
+        float itemCost=(float) (record.itemProcessed)*(ItemMgr.getInstance().getItemPrice(item));
+        float fcltProcCost=(float) (record.itemProcessed)
+                            /(FacilityMgr.getInstance().getFcltRate(fclt))
+                            *(FacilityMgr.getInstance().getFcltCost(fclt));
+        
+        final float costpD=500;        
+        float travelCost=record.arrivalDay*costpD;
+        
+        return (itemCost+fcltProcCost+travelCost);
+    }
     
 }
