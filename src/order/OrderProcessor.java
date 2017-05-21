@@ -39,6 +39,7 @@ public class OrderProcessor {
     
     private void procOneOrder(OrderDTO order,int orderIdx)
                     throws NullParamException,DataValidationException{
+
         //Temporarily set the hourpD, milepH to be constants
         final float hourpD=8;
         final float milepH=50;
@@ -83,16 +84,12 @@ public class OrderProcessor {
                     //Select the facility with the earliest (lowest) Arrival Day
                     records.sort(comparator);
                     FcltRecord topRcd=records.get(0);
-                    
                     //Reduce the inventory of the selected site by the number of items in the Facility Record
                     FacilityMgr.getInstance().reduceItemAtFclt(topRcd.fcltName,item,topRcd.itemProcessed);
-                    
                     //Reduce the Order Item quantity needed by the number of items processed in the Facility Record
                     requiredQtt-=topRcd.itemProcessed;
-                    
                     //Update the schedule of the selected site (book the time represented in the Site Record)
                     FacilityMgr.getInstance().bookSchdAtFclt(topRcd.fcltName,order.time,topRcd.itemProcessed);
-                    
                     //Add this Facility Record to the order Item solution list
                     solutions.add(topRcd);
                     
@@ -106,8 +103,8 @@ public class OrderProcessor {
     }
     
     public void printOneSolution(int orderIdx) throws NullParamException, DataValidationException{
-        System.out.println("  Processing Solution:");
-        DecimalFormat df=new DecimalFormat("#,###.##"); 
+        System.out.println("\n  Processing Solution:");
+        DecimalFormat df=new DecimalFormat("#,###.00"); 
         float totalCost=0;
         
         String lastItem="";
@@ -128,35 +125,36 @@ public class OrderProcessor {
                 
                 if (!item.equals(lastItem)) {
                     if (!isFirst) {
-                        isFirst=false;
+                        totalCost+=itemCost;
+                        
                         String itemCostS=df.format(itemCost); 
                         if (arriveDayMin==arriveDayMax){
-                            System.out.printf("           TOTAL                 %-12d$%-23s[%d]\n\n",
+                            System.out.printf("          TOTAL                 %-14d$%-23s[%d]\n\n",
                                                 itemQtt,itemCostS,arriveDayMin); 
                         }
                         else {
-                            System.out.printf("           TOTAL                 %-12d$%-23s[%d - %d]\n\n",
+                            System.out.printf("          TOTAL                 %-14d$%-23s[%d - %d]\n\n",
                                                 itemQtt,itemCostS,arriveDayMin,arriveDayMax);    
                         }
-                        
                     }
-                    totalCost+=itemCost;
+                    isFirst=false;
                     printIdx=1;
-                    System.out.println("  "+item+":");
-                    System.out.println("           Facility              Quantity"
-                            + "      Cost                    Arrival Day");
-                    System.out.printf("      %d)  %-22s%-12d$%-23s%d\n",
-                            printIdx,record.fcltName,record.itemProcessed,costS,record.arrivalDay);
-                    lastItem=item;
-                    
                     itemQtt=record.itemProcessed; 
                     itemCost=cost;
                     arriveDayMin=record.arrivalDay;
                     arriveDayMax=record.arrivalDay;
+                    lastItem=item;
+                    
+                    System.out.println("  "+item+":");
+                    System.out.println("          Facility              Quantity"
+                            + "      Cost                    Arrival Day");
+                    System.out.printf("      %d)  %-22s%-14d$%-23s%d\n",
+                            printIdx,record.fcltName,record.itemProcessed,costS,record.arrivalDay);
+
                 }
                 else {
                     printIdx++;
-                    System.out.printf("      %d)  %-22s%-12d$%-23s%d\n",
+                    System.out.printf("      %d)  %-22s%-14d$%-23s%d\n",
                             printIdx,record.fcltName,record.itemProcessed,costS,record.arrivalDay);
                     lastItem=item;
                     
@@ -169,8 +167,20 @@ public class OrderProcessor {
                 }
             }
         }
+        totalCost+=itemCost;
+                        
+        String itemCostS=df.format(itemCost); 
+        if (arriveDayMin==arriveDayMax){
+            System.out.printf("          TOTAL                 %-14d$%-23s[%d]\n\n",
+                            itemQtt,itemCostS,arriveDayMin); 
+        }
+        else {
+            System.out.printf("          TOTAL                 %-14d$%-23s[%d - %d]\n\n",
+                            itemQtt,itemCostS,arriveDayMin,arriveDayMax);    
+        }
+        
         String totalCostS=df.format(totalCost);
-        System.out.printf("  Total Cost:        %s\n",totalCostS);
+        System.out.printf("  Total Cost:        $%s\n",totalCostS);
     }
     
     
@@ -185,8 +195,9 @@ public class OrderProcessor {
                             *(FacilityMgr.getInstance().getFcltCost(fclt));
         
         final float costpD=500;        
-        float travelCost=record.arrivalDay*costpD;
+        float travelCost=(float) Math.ceil(record.travelDay)*costpD;
         
+        //System.out.printf("      itemCost: %f;      fcltProcCost: %f;      travelCost: %f\n",itemCost,fcltProcCost,travelCost);
         return (itemCost+fcltProcCost+travelCost);
     }
     

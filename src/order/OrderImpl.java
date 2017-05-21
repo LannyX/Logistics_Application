@@ -71,7 +71,6 @@ public class OrderImpl implements Order{
         System.out.println("  Destitation: 	"+ orderDest);
         //System.out.println("	List of Order Items: "+ orderItems);
         printOrderItems();
-		System.out.println("------------------------------------------------------------------------\n");
 	}
 
 

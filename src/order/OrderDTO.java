@@ -23,7 +23,7 @@ public class OrderDTO {
         id=orderId;
         time=orderTime;
         dest=orderDest;
-        Map<String, Integer> items=new TreeMap<String, Integer>();
+        items=new TreeMap<String, Integer>();
         for (String item:orderItems.keySet()) {
             items.put(item, orderItems.get(item));
         }

@@ -20,12 +20,20 @@ public class OrderMgr {
         return orderMgr;
     }
     
-    public void printReport() throws NullParamException, DataValidationException{
+    public void printOrder() {
+        for (int i=0; i<orders.size(); i++){
+            orders.get(i).printOrder();
+        }
+        System.out.println("------------------------------------------------------------------------\n");
+    }
+    
+    public void printOrderSolution() throws NullParamException, DataValidationException{
         OrderProcessor.getInstance().procOrder();
         for (int i=0; i<orders.size(); i++){
             orders.get(i).printOrder();
-           // OrderProcessor.getInstance().printOneSolution(i+1);
+            OrderProcessor.getInstance().printOneSolution(i+1);
         }
+        System.out.println("------------------------------------------------------------------------\n");
     }
     
     public OrderDTO getOrder (int i) {
