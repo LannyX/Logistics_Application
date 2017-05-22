@@ -6,12 +6,9 @@
 
 package main;
 
-import order.OrderMgr;
-import facility.FacilityMgr;
-import item.ItemMgr;
 import exception.DataValidationException;
 import exception.NullParamException;
-import java.util.ArrayList;
+import order.OrderProcessor;
 
 
 /** 
@@ -22,7 +19,7 @@ public class Client {
     
 	public static void main(String[] args) throws NullParamException, DataValidationException {
         
-            OrderMgr.getInstance().printOrderSolution();
+            OrderProcessor.getInstance().printAllOrderSolution();
 		
 //            System.out.println("Output 1: Facility Status Output for all 18 facilities"); 
 //            FacilityMgr.getInstance().printReport();

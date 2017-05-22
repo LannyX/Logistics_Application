@@ -29,7 +29,7 @@ public class OrderProcessor {
     }
     
     
-    public void procOrder()throws NullParamException,DataValidationException{
+    public void procAllOrder()throws NullParamException,DataValidationException{
         for (int orderIdx=1;orderIdx<=OrderMgr.getInstance().getOrderCount();orderIdx++){
             OrderDTO order=OrderMgr.getInstance().getOrder(orderIdx);
             procOneOrder(order,orderIdx);
@@ -183,8 +183,6 @@ public class OrderProcessor {
         System.out.printf("  Total Cost:        $%s\n",totalCostS);
     }
     
-    
-    
     private float getRecordCost(FcltRecord record) throws NullParamException, DataValidationException{
         String fclt=record.fcltName;
         String item=record.item;
@@ -199,6 +197,16 @@ public class OrderProcessor {
         
         //System.out.printf("      itemCost: %f;      fcltProcCost: %f;      travelCost: %f\n",itemCost,fcltProcCost,travelCost);
         return (itemCost+fcltProcCost+travelCost);
+    }
+    
+    
+    public void printAllOrderSolution() throws NullParamException, DataValidationException{
+        procAllOrder();
+        for (int orderIdx=1;orderIdx<=OrderMgr.getInstance().getOrderCount();orderIdx++){
+            OrderMgr.getInstance().printOneOrder(orderIdx-1);
+            printOneSolution(orderIdx);
+        }
+        System.out.println("-------------------------------------------------------------------------------\n");
     }
     
 }

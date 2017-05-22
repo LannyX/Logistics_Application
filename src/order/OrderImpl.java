@@ -64,7 +64,7 @@ public class OrderImpl implements Order{
 	@Override
 	public void printOrder() {
 		// TODO Auto-generated method stub
-		System.out.println("------------------------------------------------------------------------");
+		System.out.println("-------------------------------------------------------------------------------");
 		System.out.println("Order #"+ orderId.charAt((orderId.length() -1) ));
         System.out.println("  Order Id: 	"+ orderId);
         System.out.println("  Order Time: 	Day "+ orderTime);
