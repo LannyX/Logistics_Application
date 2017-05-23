@@ -4,6 +4,7 @@ import exception.DataValidationException;
 import exception.NullParamException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 
 public class OrderMgr {
 
@@ -33,7 +34,7 @@ public class OrderMgr {
     
     public OrderDTO getOrder (int i) {
         Order order=orders.get(i-1);
-        HashMap<String, Integer> orderItems=new HashMap<>();
+        LinkedHashMap<String, Integer> orderItems=new LinkedHashMap<>();
         for (String item:order.getItems()) {
             orderItems.put(item, order.getItemQtt(item));
         }

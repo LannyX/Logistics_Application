@@ -7,6 +7,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -68,7 +69,7 @@ public static ArrayList<Order> load() {
                 int orderTime = Integer.parseInt(orderTimeS);
 
                 // Store pairs of <Name, Distance> in neighbors, <Id, Quantity> in inventories
-                Map <String, Integer> items = new HashMap<String, Integer>(); 
+                Map <String, Integer> items = new LinkedHashMap<String, Integer>(); 
                 
                 NodeList itemList = order.getElementsByTagName("Item");
                 

@@ -5,6 +5,8 @@
  */
 package order;
 
+import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -23,10 +25,16 @@ public class OrderDTO {
         id=orderId;
         time=orderTime;
         dest=orderDest;
-        items=new TreeMap<String, Integer>();
+        /*items=new TreeMap<String, Integer>();
         for (String item:orderItems.keySet()) {
             items.put(item, orderItems.get(item));
         }
+        */
+        items = new HashMap<String, Integer>();
+        for (String item:orderItems.keySet()) {
+            items.put(item, orderItems.get(item));
+        }
+        System.out.println (items);
     }
 
 }
