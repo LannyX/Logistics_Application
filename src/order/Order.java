@@ -1,6 +1,10 @@
 package order;
 
 import java.util.Collection;
+import java.util.List;
+import java.util.Map;
+
+import item.Item;
 
 public interface Order {
 
@@ -10,9 +14,12 @@ public interface Order {
 	
 	public String getDesination();
         
-        public Collection<String> getItems();
+	//public Collection<String> getItems();
         
-        public int getItemQtt(String item);
+	//public List<String> getItems();
+    //public int getItemQtt(String item);
+    
+    public Map<String, Integer> getOrderItems();
 	
 	public void printOrder();
 	

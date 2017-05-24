@@ -3,7 +3,13 @@ package order;
 import exception.DataValidationException;
 import exception.NullParamException;
 import facility.FacilityMgr;
+import item.Item;
+
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -42,6 +48,7 @@ public class OrderImpl implements Order{
             this.orderTime = orderTime;
             this.orderDest = orderDest;
             this.orderItems = orderItems;
+            //System.out.println(this.orderItems);
 	}
 	
 	@Override
@@ -70,6 +77,7 @@ public class OrderImpl implements Order{
         System.out.println("  Order Time: 	Day "+ orderTime);
         System.out.println("  Destitation: 	"+ orderDest);
         //System.out.println("	List of Order Items: "+ orderItems);
+        
         printOrderItems();
 	}
 
@@ -89,19 +97,44 @@ public class OrderImpl implements Order{
         }
 		
 	}
-
-    @Override
+/*
+	@Override
     public Collection<String> getItems() {
         Collection<String> items=orderItems.keySet();
         return items;
     }
 
     @Override
+
+    public List<String> getItems() {
+        List<String> itemsCopy=new ArrayList<>();
+        for (Map.Entry<String, Integer> entry: orderItems.entrySet()){
+        	itemsCopy.add(entry.getKey());
+        	System.out.println(itemsCopy);
+        }
+        return itemsCopy;
+    }
+
+    @Override
     public int getItemQtt(String item) {
         return orderItems.get(item);
     }
-    
-    
+*/
+	@Override
+	public Map<String, Integer> getOrderItems() {
+		// TODO Auto-generated method stub
+		Map<String, Integer> orderItemsMap = new TreeMap<String, Integer>(orderItems);
+		//Map<String, Integer> orderItemsMap = new LinkedHashMap<String, Integer>(orderItems);
+		System.out.println(orderItemsMap);
+		/*for (String item:orderItemsMap.keySet()) {
+            orderItemsMap.put(item, orderItemsMap.get(item));
+         
+        	//System.out.println(orderItemsMap);
+               
+	}*/
+		return orderItemsMap;
+		//return this.orderItems;
+	}
 
 	
 }

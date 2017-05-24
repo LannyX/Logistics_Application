@@ -30,11 +30,12 @@ public class OrderDTO {
             items.put(item, orderItems.get(item));
         }
         */
-        items = new HashMap<String, Integer>();
+        /*items = new HashMap<String, Integer>();
         for (String item:orderItems.keySet()) {
             items.put(item, orderItems.get(item));
-        }
-        System.out.println (items);
+        }*/
+        items=orderItems;
+        //System.out.println (items);
     }
 
 }

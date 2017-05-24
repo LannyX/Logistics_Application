@@ -69,7 +69,7 @@ public static ArrayList<Order> load() {
                 int orderTime = Integer.parseInt(orderTimeS);
 
                 // Store pairs of <Name, Distance> in neighbors, <Id, Quantity> in inventories
-                Map <String, Integer> items = new LinkedHashMap<String, Integer>(); 
+                LinkedHashMap <String, Integer> items = new LinkedHashMap<String, Integer>(); 
                 
                 NodeList itemList = order.getElementsByTagName("Item");
                 
@@ -91,6 +91,7 @@ public static ArrayList<Order> load() {
                     int itemQty = Integer.parseInt(itemQtyS);
                     // Put into Hashmap
                     items.put(itemName, itemQty);
+                    //System.out.println(items);
                 }
                         
 
@@ -98,6 +99,7 @@ public static ArrayList<Order> load() {
                                     orderTime, orderDest, items);
                 //fclts.put(fcltName,facility);
                 orders.add(orderobj);
+                
             }
 
         } catch (NullParamException | DataValidationException | ParserConfigurationException 
