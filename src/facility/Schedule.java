@@ -18,7 +18,7 @@ public class Schedule {
     */
 	public Schedule (int fcltRate){
             Map <Integer, Integer> schedule = new HashMap<Integer, Integer>();
-            for (int i = 1; i <= 50; i++ ){
+            for (int i = 1; i <= 100; i++ ){
                 schedule.put(i, fcltRate);
             }
             this.schedule = schedule;
@@ -49,6 +49,7 @@ public class Schedule {
         //calculate end day for processing (a part of) order
         public int getEndDay (int startDay, int qtt) {
             while (true) {
+                //System.out.printf("startDay: Day %d\n",startDay);
                 int left=schedule.get(startDay);
                 if (qtt<=left) return startDay;
                 else {

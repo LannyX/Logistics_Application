@@ -3,13 +3,9 @@ package order;
 import exception.DataValidationException;
 import exception.NullParamException;
 import facility.FacilityMgr;
-import item.Item;
+import item.ItemMgr;
 
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -18,10 +14,10 @@ public class OrderImpl implements Order{
 	private String orderId;
 	private int orderTime;
 	private String orderDest;
-	private Map<String, Integer> orderItems;
+	private ArrayList<OrderItem> orderItems;
 	
 	public OrderImpl(String orderId, int orderTime, String orderDest, 
-                        Map<String, Integer> orderItems) 
+                        ArrayList<OrderItem> orderItems) 
                         throws NullParamException,DataValidationException{
             
             //Handle exceptions of input orderId
@@ -35,12 +31,15 @@ public class OrderImpl implements Order{
             if (orderDest.equals("")) throw new DataValidationException("Empty order destination is not allowed.");
             if (!FacilityMgr.getInstance().fcltExist(orderDest)) throw new DataValidationException("Destination is not found.");
             
-            //Exceptions of items               
-            for (String item: orderItems.keySet()) {
-                if (item==null) throw new NullParamException("Null item is not allowed.");
-                if (item.equals("")) 
+            //Exceptions of item name and quantity               
+            for (OrderItem item: orderItems) {
+                if (item.getItem()==null) throw new NullParamException("Null item is not allowed.");
+                if (item.getItem().equals("")) 
                     throw new DataValidationException("Empty item name is not allowed.");
-                if (orderItems.get(item)<=0) 
+                if (!ItemMgr.getInstance().itemExist(item.getItem()))
+                    throw new DataValidationException("Order contains item not existing in catalog.");
+
+                if (item.getQtt()<=0) 
                     throw new DataValidationException("Non-positive item quantity is unreasonable.");
             }
             
@@ -48,7 +47,6 @@ public class OrderImpl implements Order{
             this.orderTime = orderTime;
             this.orderDest = orderDest;
             this.orderItems = orderItems;
-            //System.out.println(this.orderItems);
 	}
 	
 	@Override
@@ -82,58 +80,25 @@ public class OrderImpl implements Order{
 	}
 
 
-
-	@Override
+        @Override
 	public void printOrderItems() {
         System.out.println("  List of Order Items: ");
-        Map<String, Integer> orderItemsSorted = new TreeMap<String, Integer>(orderItems);
         int i = 1;
-        for(String item: orderItemsSorted.keySet()){
-        	String itemWC = item + ",";
-        	if (orderItemsSorted.get(item) > 0){
-        		System.out.printf("	%d) Item ID:	%-8s	Quantity: %-4d\n", i, itemWC, orderItemsSorted.get(item));
-        	}
+        for(OrderItem item: orderItems){
+        	String itemWC = item.getItem() + ",";
+        	System.out.printf("	%d) Item ID:	%-8s	Quantity: %-4d\n", i, itemWC, item.getQtt());
         	i++;
         }
-		
 	}
-/*
+
+        
 	@Override
-    public Collection<String> getItems() {
-        Collection<String> items=orderItems.keySet();
-        return items;
-    }
-
-    @Override
-
-    public List<String> getItems() {
-        List<String> itemsCopy=new ArrayList<>();
-        for (Map.Entry<String, Integer> entry: orderItems.entrySet()){
-        	itemsCopy.add(entry.getKey());
-        	System.out.println(itemsCopy);
-        }
-        return itemsCopy;
-    }
-
-    @Override
-    public int getItemQtt(String item) {
-        return orderItems.get(item);
-    }
-*/
-	@Override
-	public Map<String, Integer> getOrderItems() {
-		// TODO Auto-generated method stub
-		Map<String, Integer> orderItemsMap = new TreeMap<String, Integer>(orderItems);
-		//Map<String, Integer> orderItemsMap = new LinkedHashMap<String, Integer>(orderItems);
-		System.out.println(orderItemsMap);
-		/*for (String item:orderItemsMap.keySet()) {
-            orderItemsMap.put(item, orderItemsMap.get(item));
-         
-        	//System.out.println(orderItemsMap);
-               
-	}*/
-		return orderItemsMap;
-		//return this.orderItems;
+	public ArrayList<OrderItem> getOrderItems() {
+            ArrayList<OrderItem> orderItemsC=new ArrayList<OrderItem>(orderItems);
+//            for (OrderItem x: orderItemsC) {
+//                System.out.printf("%s : %d\n",x.getItem(),x.getQtt()); 
+//            }
+            return orderItemsC;
 	}
 
 	

@@ -1,10 +1,7 @@
 package order;
 
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
 
-import item.Item;
+import java.util.ArrayList;
 
 public interface Order {
 
@@ -19,7 +16,7 @@ public interface Order {
 	//public List<String> getItems();
     //public int getItemQtt(String item);
     
-    public Map<String, Integer> getOrderItems();
+    public ArrayList<OrderItem> getOrderItems();
 	
 	public void printOrder();
 	

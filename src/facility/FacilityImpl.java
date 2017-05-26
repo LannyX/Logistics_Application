@@ -85,7 +85,6 @@ public class FacilityImpl implements Facility{
     @Override
     public void printNeighbors() {
             System.out.println("Direct Links:");
-            //hourpD, milepH should be input paras
             final float hourpD=8;
             final float milepH=50;
                     

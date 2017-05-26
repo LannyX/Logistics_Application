@@ -20,7 +20,7 @@ public class BestPath {
 
 
     /** 
-    * @Title: BestPath(c'tor) 
+    * @Title: BestPath
     * @Description: load Facilities information
     */
     public BestPath(HashMap<String, Facility> fclts){

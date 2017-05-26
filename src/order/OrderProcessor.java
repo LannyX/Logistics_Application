@@ -40,20 +40,20 @@ public class OrderProcessor {
     private void procOneOrder(OrderDTO order,int orderIdx)
                     throws NullParamException,DataValidationException{
 
-        //Temporarily set the hourpD, milepH to be constants
         final float hourpD=8;
         final float milepH=50;
         
         RecordComparator comparator=new RecordComparator();
         
-        for(String item: order.items.keySet()){
+        for(OrderItem itemInf: order.items){
             //Verify Item is a “real” item from the item Catalog
+            String item=itemInf.getItem();
             if (!ItemMgr.getInstance().itemExist(item)) {
                 System.out.println(item+" does not exist.");
                 continue;
             }
             
-            int requiredQtt=order.items.get(item);
+            int requiredQtt=itemInf.getQtt();
             //While Qtt remaining
             while (requiredQtt>0) {
                 //Identify all facilities with desired item
@@ -95,14 +95,16 @@ public class OrderProcessor {
                     
                 }
                 else {
-                    //generate back-order
+                    //backorder reminder
+                    System.out.printf("The requiring item %s is beyond storage quantity.\n",item);
+                    System.out.printf("Excess quantity: %d\n",requiredQtt);
                     break;
                 }
             }
         }
     }
     
-    public void printOneSolution(int orderIdx) throws NullParamException, DataValidationException{
+    private void printOneSolution(int orderIdx) throws NullParamException, DataValidationException{
         System.out.println("\n  Processing Solution:");
         DecimalFormat df=new DecimalFormat("#,###.00"); 
         float totalCost=0;

@@ -2,14 +2,9 @@ package order;
 
 import exception.DataValidationException;
 import exception.NullParamException;
-import order.Order;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.Map;
-
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -69,7 +64,7 @@ public static ArrayList<Order> load() {
                 int orderTime = Integer.parseInt(orderTimeS);
 
                 // Store pairs of <Name, Distance> in neighbors, <Id, Quantity> in inventories
-                LinkedHashMap <String, Integer> items = new LinkedHashMap<String, Integer>(); 
+                ArrayList<OrderItem> items = new ArrayList<OrderItem>(); 
                 
                 NodeList itemList = order.getElementsByTagName("Item");
                 
@@ -89,8 +84,9 @@ public static ArrayList<Order> load() {
                     String itemName = order.getElementsByTagName("Name").item(0).getTextContent();
                     String itemQtyS = order.getElementsByTagName("Qty").item(0).getTextContent();               
                     int itemQty = Integer.parseInt(itemQtyS);
-                    // Put into Hashmap
-                    items.put(itemName, itemQty);
+                    OrderItem item=new OrderItem(itemName,itemQty);
+                    // Put into ArrayList
+                    items.add(item);
                     //System.out.println(items);
                 }
                         

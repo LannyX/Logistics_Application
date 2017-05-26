@@ -3,9 +3,6 @@ package order;
 import exception.DataValidationException;
 import exception.NullParamException;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.List;
 
 public class OrderMgr {
 
@@ -35,18 +32,6 @@ public class OrderMgr {
     
     public OrderDTO getOrder (int i) {
         Order order=orders.get(i-1);
-        //HashMap<String, Integer> orderItems=new HashMap<>();
-        //LinkedHashMap<String, Integer> orderItems=new LinkedHashMap<>();
-        //List<String> item = order.getItems();
-        //System.out.println(item);
-        /*for (String item:order.getItems()) {
-            orderItems.put(item, order.getItemQtt(item));
-            //System.out.println(orderItems);
-        }
-        */
-        //List<String> item = new ArrayList<> (orderItems.keySet());
-        //System.out.println(item);
-
         return new OrderDTO (order.getOrderId(),order.getOrderTime(),order.getDesination(),order.getOrderItems());
     }
     
