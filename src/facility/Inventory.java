@@ -72,15 +72,15 @@ public class Inventory {
         }
         System.out.println();
         System.out.print("Depleted (Used-up) Inventory: ");
-        boolean flag=false;
+        boolean hasDepleted=false;
 
         for (String item:keySetS){
             if (inventory.get(item)==0) {
-                System.out.print(item+" ");
-                flag=true;
+                System.out.print(item+"  ");
+                hasDepleted=true;
             }
         }
-        if (!flag) System.out.print("None");
+        if (!hasDepleted) System.out.print("None");
         System.out.println();
     }
   

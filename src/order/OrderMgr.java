@@ -39,6 +39,5 @@ public class OrderMgr {
         return orders.size();
     }
     
-    //public void generateBackOrder()
     
 }
