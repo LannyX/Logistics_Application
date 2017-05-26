@@ -8,6 +8,8 @@ package main;
 
 import exception.DataValidationException;
 import exception.NullParamException;
+import facility.FacilityMgr;
+import item.ItemMgr;
 import order.OrderProcessor;
 
 
@@ -19,18 +21,30 @@ public class Client {
     
 	public static void main(String[] args) throws NullParamException, DataValidationException {
         
-            OrderProcessor.getInstance().printAllOrderSolution();
+            
 		
-//            System.out.println("Output 1: Facility Status Output for all 18 facilities"); 
-//            FacilityMgr.getInstance().printReport();
-//            System.out.println("------------------------------------"
-//                                + "------------------------------------");
-//            
-//            System.out.println("Output 2: Item Catalog Content Output");
-//            ItemMgr.getInstance().printItemReport();
-//            System.out.println();
-//            System.out.println("------------------------------------"
-//                                + "------------------------------------");
+            System.out.println("Output 1: Facility Status Output for all 18 facilities"); 
+            FacilityMgr.getInstance().printReport();
+            System.out.println("------------------------------------"
+                                + "------------------------------------");
+            /*
+            System.out.println("Output 2: Item Catalog Content Output");
+            ItemMgr.getInstance().printItemReport();
+            System.out.println();
+            System.out.println("------------------------------------"
+                                + "------------------------------------");
+            */
+            System.out.println("Output 2: Order Output for all 6 Orders:"); 
+            OrderProcessor.getInstance().printAllOrderSolution();
+            System.out.println("------------------------------------"
+                    + "------------------------------------");
+            
+            System.out.println("Output 3: Facility Status Output for all 18 facilities"); 
+            FacilityMgr.getInstance().printReport();
+            System.out.println("------------------------------------"
+                                + "------------------------------------");
+
+            
 //            
 //            
 //            System.out.println("Output 3: Example Shortest Path Output for 10 site-pairs");

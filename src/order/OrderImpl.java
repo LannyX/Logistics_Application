@@ -93,6 +93,7 @@ public class OrderImpl implements Order{
 
         
 	@Override
+
 	public ArrayList<OrderItem> getOrderItems() {
             ArrayList<OrderItem> orderItemsC=new ArrayList<OrderItem>(orderItems);
 //            for (OrderItem x: orderItemsC) {
@@ -100,6 +101,7 @@ public class OrderImpl implements Order{
 //            }
             return orderItemsC;
 	}
+
 
 	
 }
