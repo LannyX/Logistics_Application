@@ -6,6 +6,10 @@ import facility.FacilityMgr;
 import item.ItemMgr;
 import java.util.ArrayList;
 
+/**
+ * A concrete implementation of Order. It contains an order ID, order time,
+ * order destination and a collection of order items.
+ */
 public class OrderImpl implements Order{
 	
 	private String orderId;
@@ -21,7 +25,7 @@ public class OrderImpl implements Order{
             if (orderId==null) throw new NullParamException("Null orderId is not allowed.");
             if (orderId.equals("")) throw new DataValidationException("Empty orderId is not allowed.");
             //Handle exception of orderTime            
-            if (orderTime<0) throw new DataValidationException("Negative order time is unreasonable.");
+            if (orderTime<=0) throw new DataValidationException("Non-positive order time is unreasonable.");
             
             //Handle exceptions of input orderDest
             if (orderDest==null) throw new NullParamException("Null order destination is not allowed.");
@@ -61,41 +65,33 @@ public class OrderImpl implements Order{
 		return orderDest;
 	}
 
-
-
 	@Override
 	public void printOrder() {
-		// TODO Auto-generated method stub
-		System.out.println("-------------------------------------------------------------------------------");
-		System.out.println("Order #"+ orderId.charAt((orderId.length() -1) ));
-        System.out.println("  Order Id: 	"+ orderId);
-        System.out.println("  Order Time: 	Day "+ orderTime);
-        System.out.println("  Destitation: 	"+ orderDest);
-        //System.out.println("	List of Order Items: "+ orderItems);
-        
-        printOrderItems();
+            System.out.println("-----------------------------------------------"
+                    + "--------------------------------");
+            System.out.println("Order #"+ orderId.charAt((orderId.length() -1) ));
+            System.out.println("  Order Id: 	"+ orderId);
+            System.out.println("  Order Time: 	Day "+ orderTime);
+            System.out.println("  Destitation: 	"+ orderDest);
+            printOrderItems();
 	}
 
 
         @Override
 	public void printOrderItems() {
-        System.out.println("  List of Order Items: ");
-        int i = 1;
-        for(OrderItem item: orderItems){
-        	String itemWC = item.getItem() + ",";
-        	System.out.printf("	%d) Item ID:	%-8s	Quantity: %-4d\n", i, itemWC, item.getQtt());
-        	i++;
+            System.out.println("  List of Order Items: ");
+            int i = 1;
+            for(OrderItem item: orderItems){
+                String itemWC = item.getItem() + ",";
+                System.out.printf("	%d) Item ID:	%-8s	Quantity: %-4d\n", i, itemWC, item.getQtt());
+                i++;
+            }
         }
-	}
 
         
 	@Override
-
 	public ArrayList<OrderItem> getOrderItems() {
             ArrayList<OrderItem> orderItemsC=new ArrayList<OrderItem>(orderItems);
-//            for (OrderItem x: orderItemsC) {
-//                System.out.printf("%s : %d\n",x.getItem(),x.getQtt()); 
-//            }
             return orderItemsC;
 	}
 

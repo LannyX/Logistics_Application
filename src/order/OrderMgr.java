@@ -1,14 +1,14 @@
 package order;
 
-import exception.DataValidationException;
-import exception.NullParamException;
 import java.util.ArrayList;
 
+/**
+ * Order Manager. It loads and manages order records.
+ */
 public class OrderMgr {
-
-	private ArrayList<Order> orders;
-	//private ArrayList<Order> backOrders;        
-	private static OrderMgr orderMgr;
+    
+    private ArrayList<Order> orders;
+    private static OrderMgr orderMgr;
 	
     private OrderMgr(){
         orders = OrderLoader.load();

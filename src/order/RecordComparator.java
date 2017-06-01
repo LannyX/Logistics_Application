@@ -1,15 +1,9 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package order;
 
 import java.util.Comparator;
 
 /**
- *
- * @author dell
+ * Comparator for comparing two facility records based on their arrival days.
  */
 public class RecordComparator implements Comparator<FcltRecord> {
 

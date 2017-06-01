@@ -1,5 +1,8 @@
 package order;
 
+/**
+ * Object to store one item and the required quantity of it in an order.
+ */
 public class OrderItem {
     
     private String item;

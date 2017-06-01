@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package order;
 
 import exception.DataValidationException;
@@ -13,11 +8,14 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+/**
+ * Order processor. It collaborates with order manager to process 
+ * all orders and comes up with solutions.
+ */
 public class OrderProcessor {
     
     private ArrayList<FcltRecord> solutions;
     private static OrderProcessor orderProc;
-
     
     private OrderProcessor() {
         solutions=new ArrayList<FcltRecord>();
@@ -208,7 +206,8 @@ public class OrderProcessor {
             OrderMgr.getInstance().printOneOrder(orderIdx-1);
             printOneSolution(orderIdx);
         }
-        System.out.println("-------------------------------------------------------------------------------\n");
+        System.out.println("----------------------------------------------------"
+                              + "---------------------------\n");
     }
     
 }

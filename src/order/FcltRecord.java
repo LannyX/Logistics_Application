@@ -1,13 +1,7 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package order;
 
 /**
- *
- * @author dell
+ * Object to store record of a facility when processing order. 
  */
 public class FcltRecord {
 
@@ -19,7 +13,8 @@ public class FcltRecord {
     public float travelDay;
     public int arrivalDay;
 
-    public FcltRecord(int orderIdx, String item, String fcltName, int itemProcessed, int procEndDay, float travelDay, int arrivalDay) {
+    public FcltRecord(int orderIdx, String item, String fcltName, int itemProcessed, 
+                                int procEndDay, float travelDay, int arrivalDay) {
         this.orderIdx=orderIdx;
         this.item=item;
         this.fcltName = fcltName;

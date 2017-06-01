@@ -54,9 +54,6 @@ public static ArrayList<Order> load() {
                 // Get a node attribute
                 NamedNodeMap orderMap = orderEntries.item(i).getAttributes();
                 
-                // Get information of a node 
-                //String fcltId = orderMap.getNamedItem("Id").getNodeValue();
-                
                 Element order = (Element) orderEntries.item(i);
                 String orderId = order.getElementsByTagName("Id").item(0).getTextContent();
                 String orderTimeS = order.getElementsByTagName("OrderTime").item(0).getTextContent();
@@ -89,15 +86,11 @@ public static ArrayList<Order> load() {
                     items.add(item);
                     //System.out.println(items);
                 }
-                        
 
                 Order orderobj = OrderFactory.createOrder(orderId, 
                                     orderTime, orderDest, items);
-                //fclts.put(fcltName,facility);
                 orders.add(orderobj);
-                
             }
-
         } catch (NullParamException | DataValidationException | ParserConfigurationException 
                 | SAXException | IOException | DOMException e) {
             System.out.println(e.getMessage());
